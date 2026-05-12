@@ -1,0 +1,52 @@
+# 🎯 DÉMARRAGE EN 3 ÉTAPES
+
+## Étape 1: Installer (2 min)
+
+Sur **Windows:**
+```
+Double-cliquez sur run.bat
+(tout s'installe automatiquement)
+```
+
+## Étape 2: Lancer (automatique)
+
+L'application s'ouvre dans votre navigateur:
+```
+http://localhost:8501
+```
+
+## Étape 3: Utiliser (5 min chaque module)
+
+**Module 1** → Vérifiez les charges  
+**Module 2** → Voyez la répartition  
+**Module 3** → Confirmez les transfers  
+**Module 4** → Consultez les CUO  
+**Module 5** → Entrez votre commande  
+**Module 6** → Générez votre devis ✅
+
+---
+
+## 📖 Documentation essentielle
+
+| Besoin | Fichier |
+|--------|---------|
+| ?️ Où commencer | [`INDEX.md`](INDEX.md) |
+| ⚡ Vite fait | [`DEMARRAGE.md`](DEMARRAGE.md) |
+| 📖 Complet | [`README.md`](README.md) |
+| 🧮 Formules | [`FORMULES.md`](FORMULES.md) |
+| 📊 Exemple | [`EXEMPLE_CALCUL.md`](EXEMPLE_CALCUL.md) |
+| 💡 Conseil | [`CONSEILS.md`](CONSEILS.md) |
+
+---
+
+## ✅ Succès
+
+L'application est opérationnelle quand:
+- Les 6 modules s'affichent dans la barre latérale ✓
+- Les données ELCO-BAT sont pré-chargées ✓
+- Les graphiques s'affichent ✓
+- Vous pouvez naviguer librement ✓
+
+---
+
+**C'est prêt! Lancez l'application maintenant. 🚀**

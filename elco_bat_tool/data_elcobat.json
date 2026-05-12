@@ -1,0 +1,128 @@
+{
+  "entreprise": {
+    "nom": "ELCO-BAT SARL",
+    "secteur": "Menuiserie aluminium",
+    "localisation": "Tizi Ouzou"
+  },
+  "charges_indirectes": {
+    "Loyer": 180000,
+    "Électricité": 96000,
+    "Entretien": 72000,
+    "Salaires": 240000,
+    "Amortissement": 120000,
+    "Fournitures": 24000,
+    "Transport": 60000
+  },
+  "centres": {
+    "ADM": "Auxiliaire",
+    "ENT": "Auxiliaire",
+    "APPRO": "Principal",
+    "AT-D": "Principal",
+    "AT-ML": "Principal",
+    "DIST": "Principal"
+  },
+  "cles_repartition_primaire": {
+    "Loyer": {
+      "ADM": 0.10,
+      "ENT": 0.05,
+      "APPRO": 0.10,
+      "AT-D": 0.30,
+      "AT-ML": 0.35,
+      "DIST": 0.10
+    },
+    "Électricité": {
+      "ADM": 0.05,
+      "ENT": 0.05,
+      "APPRO": 0.05,
+      "AT-D": 0.40,
+      "AT-ML": 0.40,
+      "DIST": 0.05
+    },
+    "Entretien": {
+      "ADM": 0.0,
+      "ENT": 0.60,
+      "APPRO": 0.05,
+      "AT-D": 0.15,
+      "AT-ML": 0.15,
+      "DIST": 0.05
+    },
+    "Salaires": {
+      "ADM": 0.30,
+      "ENT": 0.10,
+      "APPRO": 0.15,
+      "AT-D": 0.20,
+      "AT-ML": 0.15,
+      "DIST": 0.10
+    },
+    "Amortissement": {
+      "ADM": 0.0,
+      "ENT": 0.10,
+      "APPRO": 0.0,
+      "AT-D": 0.45,
+      "AT-ML": 0.45,
+      "DIST": 0.0
+    },
+    "Fournitures": {
+      "ADM": 0.40,
+      "ENT": 0.0,
+      "APPRO": 0.20,
+      "AT-D": 0.10,
+      "AT-ML": 0.10,
+      "DIST": 0.20
+    },
+    "Transport": {
+      "ADM": 0.0,
+      "ENT": 0.0,
+      "APPRO": 0.10,
+      "AT-D": 0.0,
+      "AT-ML": 0.0,
+      "DIST": 0.90
+    }
+  },
+  "cles_repartition_secondaire": {
+    "ADM": {
+      "ENT": 0.10,
+      "APPRO": 0.15,
+      "AT-D": 0.25,
+      "AT-ML": 0.30,
+      "DIST": 0.20
+    },
+    "ENT": {
+      "APPRO": 0.10,
+      "AT-D": 0.35,
+      "AT-ML": 0.45,
+      "DIST": 0.10
+    }
+  },
+  "charges_directes": {
+    "Aluminium": 756000,
+    "Vitrage": 108000,
+    "Quincaillerie": 54000,
+    "MOD": 153600
+  },
+  "unites_oeuvre": {
+    "APPRO": 8400,
+    "AT-D": 1200,
+    "AT-ML": 2400,
+    "DIST": 720
+  },
+  "unites_oeuvre_labels": {
+    "APPRO": "kg d'aluminium",
+    "AT-D": "heures machine",
+    "AT-ML": "heures MOD",
+    "DIST": "ensembles"
+  },
+  "consommation_commande": {
+    "APPRO": 1800,
+    "AT-D": 240,
+    "AT-ML": 480,
+    "DIST": 120
+  },
+  "commande": {
+    "numero": 47,
+    "client": "Promoteur immobilier",
+    "localisation": "Boumerdès",
+    "description": "120 ensembles de menuiserie aluminium (portes + fenêtres)",
+    "nb_ensembles": 120
+  }
+}

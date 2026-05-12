@@ -1,0 +1,91 @@
+{
+  "description": "Exercice - Les Sections Homogènes",
+  "charges_indirectes": {
+    "Administration": 4500,
+    "Entretien": 5688,
+    "Force motrice": 9972,
+    "Atelier A": 21800,
+    "Atelier B": 36000,
+    "Distribution": 30000
+  },
+  "centres": {
+    "Administration": "Auxiliaire",
+    "Entretien": "Auxiliaire",
+    "Force motrice": "Auxiliaire",
+    "Atelier A": "Principal",
+    "Atelier B": "Principal",
+    "Distribution": "Principal"
+  },
+  "cles_repartition": {
+    "Administration": {
+      "Entretien": 0.10,
+      "Force motrice": 0.05,
+      "Atelier A": 0.15,
+      "Atelier B": 0.20,
+      "Distribution": 0.50
+    },
+    "Entretien": {
+      "Force motrice": 0.10,
+      "Atelier A": 0.25,
+      "Atelier B": 0.40,
+      "Distribution": 0.25
+    },
+    "Force motrice": {
+      "Entretien": 0.10,
+      "Atelier A": 0.40,
+      "Atelier B": 0.40,
+      "Distribution": 0.10
+    },
+    "Atelier A": {
+      "Atelier A": 1.0
+    },
+    "Atelier B": {
+      "Atelier B": 1.0
+    },
+    "Distribution": {
+      "Distribution": 1.0
+    }
+  },
+  "repart_secondaire": {
+    "Administration": {
+      "Entretien": 0.10,
+      "Force motrice": 0.05,
+      "Atelier A": 0.15,
+      "Atelier B": 0.20,
+      "Distribution": 0.50
+    },
+    "Entretien": {
+      "Force motrice": 0.10,
+      "Atelier A": 0.25,
+      "Atelier B": 0.40,
+      "Distribution": 0.25
+    },
+    "Force motrice": {
+      "Entretien": 0.10,
+      "Atelier A": 0.40,
+      "Atelier B": 0.40,
+      "Distribution": 0.10
+    }
+  },
+  "unites_oeuvre": {
+    "Atelier A": 5000,
+    "Atelier B": 4000,
+    "Distribution": 11716.5
+  },
+  "charges_directes": {
+    "Matière première": 26500,
+    "Main-d'œuvre directe": 4800
+  },
+  "consommation_command": {
+    "Atelier A": 1000,
+    "Atelier B": 500,
+    "Distribution": 1
+  },
+  "commande": {
+    "numero": 15,
+    "date": "02/2026",
+    "client": "Client Test",
+    "description": "Commande n°15",
+    "prix_vente_souhaite": 110000
+  }
+}

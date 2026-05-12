@@ -1,0 +1,128 @@
+[
+  {
+    "id": 1,
+    "numero_devis": "DEVIS-2024-7089",
+    "date_creation": "2026-04-22T18:58:09.991530",
+    "client": {
+      "nom": "Client Non Renseigné",
+      "adresse": "",
+      "telephone": "",
+      "email": ""
+    },
+    "finances": {
+      "charges_directes": {
+        "Aluminium": 756000,
+        "Vitrage": 108000,
+        "Quincaillerie": 54000,
+        "MOD": 153600
+      },
+      "frais_indirects": 155136.4,
+      "prix_revient": 1226736.4,
+      "prix_vente": 1472083.68,
+      "marge_montant": 245347.28,
+      "marge_pct": 20,
+      "taux_marge_marque": 16.666666666666668,
+      "resultat": 245347.28000000003,
+      "coefficient": 1.2
+    },
+    "operationnel": {
+      "consommation_par_centre": {
+        "APPRO": 1800,
+        "AT-D": 240,
+        "AT-ML": 480,
+        "DIST": 120
+      },
+      "capacites_residuelles": {
+        "APPRO": 6600,
+        "AT-D": 960,
+        "AT-ML": 1920,
+        "DIST": 600
+      }
+    },
+    "statut": "Créée"
+  },
+  {
+    "id": 2,
+    "numero_devis": "DEVIS-2024-8326",
+    "date_creation": "2026-04-22T19:18:46.657768",
+    "client": {
+      "nom": "test1",
+      "adresse": "",
+      "telephone": "05678957",
+      "email": ""
+    },
+    "finances": {
+      "charges_directes": {
+        "Aluminium": 756000,
+        "Vitrage": 108000,
+        "Quincaillerie": 54000,
+        "MOD": 153600
+      },
+      "frais_indirects": 254730.7796296296,
+      "prix_revient": 1326330.7796296296,
+      "prix_vente": 1591596.9355555554,
+      "marge_montant": 265266.15592592594,
+      "marge_pct": 20,
+      "taux_marge_marque": 16.666666666666664,
+      "resultat": 265266.1559259258,
+      "coefficient": 1.2
+    },
+    "operationnel": {
+      "consommation_par_centre": {
+        "APPRO": 1800,
+        "AT-D": 240,
+        "AT-ML": 480,
+        "DIST": 125
+      },
+      "capacites_residuelles": {
+        "APPRO": 6600,
+        "AT-D": 960,
+        "AT-ML": 1920,
+        "DIST": 595
+      }
+    },
+    "statut": "Créée"
+  },
+  {
+    "id": 3,
+    "numero_devis": "DEVIS-2024-0595",
+    "date_creation": "2026-05-12T17:43:15.779103",
+    "client": {
+      "nom": "Promoteur immobbilier",
+      "adresse": "Boumerdès, Algérie",
+      "telephone": "05579687",
+      "email": "moblier@gmail.com"
+    },
+    "finances": {
+      "charges_directes": {
+        "Aluminium": 756000,
+        "Vitrage": 108000,
+        "Quincaillerie": 54000,
+        "MOD": 153600
+      },
+      "frais_indirects": 152033.2,
+      "prix_revient": 1223633.2,
+      "prix_vente": 1468359.8399999999,
+      "marge_montant": 244726.64,
+      "marge_pct": 20,
+      "taux_marge_marque": 16.66666666666666,
+      "resultat": 244726.6399999999,
+      "coefficient": 1.2
+    },
+    "operationnel": {
+      "consommation_par_centre": {
+        "APPRO": 1800,
+        "AT-D": 240,
+        "AT-ML": 480,
+        "DIST": 120
+      },
+      "capacites_residuelles": {
+        "APPRO": 6600,
+        "AT-D": 960,
+        "AT-ML": 1920,
+        "DIST": 600
+      }
+    },
+    "statut": "Créée"
+  }
+]
