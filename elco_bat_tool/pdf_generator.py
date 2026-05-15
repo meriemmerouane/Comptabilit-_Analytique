@@ -1,6 +1,6 @@
 """
 Module de génération de devis PDF professionnel
-Pour ELCO-BAT SARL
+Pour PROTECTEX EPI SARL
 """
 
 from reportlab.lib.pagesizes import A4
@@ -93,7 +93,7 @@ class DevisPDF:
         """Crée l'en-tête du devis"""
         data = [
             [
-                Paragraph("<b>ELCO-BAT SARL</b><br/><font size=10>Menuiserie Aluminium</font><br/><font size=8 color='#666'>Tizi Ouzou, Algérie</font>", self.normal_style),
+                Paragraph("<b>PROTECTEX EPI SARL</b><br/><font size=10>Confection de vêtements professionnels / EPI</font><br/><font size=8 color='#666'>Tizi Ouzou, Algérie</font>", self.normal_style),
                 Paragraph(f"<b style='font-size:18'>DEVIS</b><br/><font size=11><b>N° {donnees['numero_devis']}</b></font>", self.heading_style),
             ]
         ]
@@ -161,9 +161,10 @@ class DevisPDF:
         ]
         
         # Produit final
+        quantite = donnees.get('quantite', 1)
         data.append([
-            Paragraph("Ensemble menuiserie aluminium<br/><font size=9 color='#666'>Profilés alu + vitrage + quincaillerie inclus</font>", self.normal_style),
-            Paragraph("120", ParagraphStyle('Center', parent=self.normal_style, alignment=1)),
+            Paragraph("Tenues professionnelles EPI<br/><font size=9 color='#666'>Tissu principal, fournitures couture, bandes réfléchissantes et renforts</font>", self.normal_style),
+            Paragraph(str(quantite), ParagraphStyle('Center', parent=self.normal_style, alignment=1)),
             Paragraph(f"{donnees['prix_unitaire']:,.0f} DA", ParagraphStyle('Right', parent=self.normal_style, alignment=2)),
             Paragraph(f"{donnees['prix_vente']:,.0f} DA", ParagraphStyle('Right', parent=self.normal_style, alignment=2)),
         ])
@@ -245,7 +246,7 @@ class DevisPDF:
     def _create_footer(self):
         """Crée le footer du devis"""
         return Paragraph(
-            "<font size=8 color='#999'>ELCO-BAT SARL • Menuiserie Aluminium • Tizi Ouzou<br/>"
+            "<font size=8 color='#999'>PROTECTEX EPI SARL • Confection de vêtements professionnels / EPI • Tizi Ouzou<br/>"
             f"Devis généré le {datetime.now().strftime('%d/%m/%Y à %H:%M')} • "
             "Ce document est un devis professionnel</font>",
             ParagraphStyle('Footer', parent=self.normal_style, alignment=1, fontSize=8)

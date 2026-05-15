@@ -1,11 +1,11 @@
 @echo off
-REM Script de lancement de l'application ELCO-BAT SARL
+REM Script de lancement de l'application PROTECTEX EPI SARL
 REM ====================================================
 
 cls
 echo.
 echo  ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
-echo  *  ELCO-BAT SARL - Outil de Calcul de Prix de Revient    *
+echo  *  PROTECTEX EPI SARL - Outil de Calcul de Prix de Revient    *
 echo  *  Méthode des sections homogènes                         *
 echo  ^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*^*
 echo.

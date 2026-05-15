@@ -1,8 +1,8 @@
-# TABLEAU DE BORD ELCO-BAT - Guide des Nouvelles Fonctionnalités
+# TABLEAU DE BORD PROTECTEX EPI - Guide des Nouvelles Fonctionnalités
 
 ## Vue d'Ensemble
 
-L'application ELCO-BAT a été enrichie de deux fonctionnalités majeures :
+L'application PROTECTEX EPI a été enrichie de deux fonctionnalités majeures :
 
 1. **Système d'Historisation des Commandes**
 2. **KPI Résultat - Tableau de Bord Analytique**
@@ -266,4 +266,4 @@ R: Oui, en CSV pour utiliser dans Excel/Sheets.
 ---
 
 **Version 2.0 - Avril 2024**
-**Auteur**: ELCO-BAT SARL
+**Auteur**: PROTECTEX EPI SARL

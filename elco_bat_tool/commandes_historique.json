@@ -11,10 +11,10 @@
     },
     "finances": {
       "charges_directes": {
-        "Aluminium": 756000,
-        "Vitrage": 108000,
-        "Quincaillerie": 54000,
-        "MOD": 153600
+        "Tissu principal": 756000,
+        "Fournitures de couture": 108000,
+        "Bandes réfléchissantes et renforts EPI": 54000,
+        "Main-d’œuvre directe couture": 153600
       },
       "frais_indirects": 155136.4,
       "prix_revient": 1226736.4,
@@ -53,10 +53,10 @@
     },
     "finances": {
       "charges_directes": {
-        "Aluminium": 756000,
-        "Vitrage": 108000,
-        "Quincaillerie": 54000,
-        "MOD": 153600
+        "Tissu principal": 756000,
+        "Fournitures de couture": 108000,
+        "Bandes réfléchissantes et renforts EPI": 54000,
+        "Main-d’œuvre directe couture": 153600
       },
       "frais_indirects": 254730.7796296296,
       "prix_revient": 1326330.7796296296,
@@ -95,10 +95,10 @@
     },
     "finances": {
       "charges_directes": {
-        "Aluminium": 756000,
-        "Vitrage": 108000,
-        "Quincaillerie": 54000,
-        "MOD": 153600
+        "Tissu principal": 756000,
+        "Fournitures de couture": 108000,
+        "Bandes réfléchissantes et renforts EPI": 54000,
+        "Main-d’œuvre directe couture": 153600
       },
       "frais_indirects": 152033.2,
       "prix_revient": 1223633.2,

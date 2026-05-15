@@ -1,108 +1,108 @@
-# 🧮 Exemple de calcul DÉTAILLÉ - ELCO-BAT SARL
+# 🧮 Exemple de calcul DÉTAILLÉ - PROTECTEX EPI SARL
 
-## Données de base
+**RÉCAPITULATIF DES FRAIS INDIRECTS (EXEMPLE PROTECTEX):**
 
-### Charges indirectes du mois
 ```
-Loyer                  180,000 DA
-Électricité             96,000 DA
-Entretien               72,000 DA
-Salaires               240,000 DA
-Amortissement          120,000 DA
-Fournitures             24,000 DA
-Transport               60,000 DA
-─────────────────────────────
-TOTAL                  792,000 DA
-```
-
-### Centres d'analyse
-```
-AUXILIAIRES:
-  - ADM (Administration)
-  - ENT (Entretien)
-
-PRINCIPAUX:
-  - APPRO (Approvisionnement)
-  - AT-D (Atelier Découpe)
-  - AT-ML (Atelier Montage-Laquage)
-  - DIST (Distribution)
+Centre     CUO                Consommation    Frais imputés
+────────── ───────────────   ─────────────── ────────────
+APPRO      ≈ 8.48 DA/mètre     3,000 m         ≈ 25,431 DA
+AT-D       ≈ 37.38 DA/mètre    3,000 m         ≈ 112,144 DA
+AT-ML      ≈ 115.58 DA/h         600 h         ≈ 69,350 DA
+DIST       ≈ 79.85 DA/tenue       600 tenues     ≈ 47,892 DA
+                                         ──────────
+TOTAL FRAIS INDIRECTS                   ≈ 254,817 DA
 ```
 
 ---
 
-## ÉTAPE 1: RÉPARTITION PRIMAIRE
+## ÉTAPE 7: FICHE DE PRIX DE REVIENT
 
-### 1.1 Répartition de "Loyer" (180,000 DA)
-
-Clés de répartition du Loyer:
-```
-ADM   10%     →  180,000 × 0.10 = 18,000
-ENT    5%     →  180,000 × 0.05 = 9,000
-APPRO 10%     →  180,000 × 0.10 = 18,000
-AT-D  30%     →  180,000 × 0.30 = 54,000
-AT-ML 35%     →  180,000 × 0.35 = 63,000
-DIST  10%     →  180,000 × 0.10 = 18,000
-                                 ─────────
-                Total:             180,000 ✓
-```
-
-### 1.2 Répartition de "Électricité" (96,000 DA)
-
-Clés: ADM 5%, ENT 5%, APPRO 5%, AT-D 40%, AT-ML 40%, DIST 5%
+### A. Charges directes (exemple)
 
 ```
-ADM:   96,000 × 0.05 = 4,800
-ENT:   96,000 × 0.05 = 4,800
-APPRO: 96,000 × 0.05 = 4,800
-AT-D:  96,000 × 0.40 = 38,400
-AT-ML: 96,000 × 0.40 = 38,400
-DIST:  96,000 × 0.05 = 4,800
-                      ────────
-Total:                 96,000 ✓
+Tissu principal                      840,000 DA
+Fournitures de couture                72,000 DA
+Bandes réfléchissantes / renforts     96,000 DA
+MOD directe (couture)                192,000 DA
+────────────────────────────────────────
+Total charges dir.                 1,200,000 DA
 ```
 
-### 1.3 Répartition complète (toutes les charges)
-
-**TABLEAU DE RÉPARTITION PRIMAIRE:**
+### B. Frais indirects imputés
 
 ```
-                ADM      ENT      APPRO    AT-D     AT-ML    DIST      TOTAL
-Loyer           18,000   9,000    18,000   54,000   63,000   18,000    180,000
-Électricité     4,800    4,800    4,800    38,400   38,400   4,800     96,000
-Entretien       0        43,200   3,600    10,800   10,800   3,600     72,000
-Salaires        72,000   24,000   36,000   48,000   36,000   24,000    240,000
-Amortissement   0        12,000   0        54,000   54,000   0         120,000
-Fournitures     9,600    0        4,800    2,400    2,400    4,800     24,000
-Transport       0        0        6,000    0        0        54,000    60,000
-─────────────── ──────── ──────── ──────── ──────── ──────── ──────── ────────
-TOTAL PRIMAIRE  104,400  93,000   73,200   207,600  204,600  109,200  792,000 ✓
+Approvisionnement     ≈ 25,431 DA
+Atelier Coupe         ≈112,144 DA
+Atelier Couture       ≈ 69,350 DA
+Distribution           ≈ 47,892 DA
+────────────────────────────────────────
+Total frais ind.                   ≈254,817 DA
 ```
 
-✅ **Vérification:** 104,400 + 93,000 + 73,200 + 207,600 + 204,600 + 109,200 = 792,000 ✓
+### C. PRIX DE REVIENT
+
+```
+Charges directes         1,200,000 DA
++ Frais indirects          ≈254,835 DA
+────────────────────────────────────
+= PRIX DE REVIENT        ≈1,454,835 DA
+```
 
 ---
 
-## ÉTAPE 2: RÉPARTITION SECONDAIRE
+## ÉTAPE 8: DEVIS AVEC MARGE
 
-### Clés de répartition secondaire
+### Paramètres
 
-**ADM se répartit vers:**
-- ENT:    10%
-- APPRO:  15%
-- AT-D:   25%
-- AT-ML:  30%
-- DIST:   20%
-Total: 100% ✓
+```
+Prix de revient         ≈1,454,835 DA
+Taux de marge désirée   20%
+Nombre d'unités         600
+```
 
-**ENT se répartit vers:**
-- APPRO:  10%
-- AT-D:   35%
-- AT-ML:  45%
-- DIST:   10%
-Total: 100% ✓
+### Calculs
 
-### 2.1 Vidage de ADM (104,400 DA)
+**Marge bénéficiaire:**
+```
+Marge ≈ 1,454,835 × 20% ≈ 290,967 DA
+```
 
+**Prix de vente:**
+```
+Prix de vente ≈ 1,454,835 + 290,967 ≈ 1,745,802 DA
+```
+
+**Prix unitaire:**
+```
+Prix unitaire ≈ 1,745,802 ÷ 600 ≈ 2,910 DA/tenue
+```
+
+### DEVIS PROPOSÉ
+
+```
+╔════════════════════════════════════╗
+║    DEVIS PROTECTEX EPI SARL        ║
+║    Commande N°47                   ║
+║    Boumerdès                       ║
+╚════════════════════════════════════╝
+
+DÉTAIL:
+  Charges directes          1,200,000 DA
+  + Frais indirects           ≈254,835 DA
+  ──────────────────────────────────
+  Prix de revient:          ≈1,454,835 DA
+  Marge (20%)                 ≈290,967 DA
+  ──────────────────────────────────
+  PRIX TOTAL (HT)           ≈1,745,802 DA
+
+Quantité: 600 tenues
+Prix unitaire: ≈2,910 DA/tenue
+
+RÉSULTAT:
+  Résultat analytique:        ≈290,967 DA
+  Taux de marge:                ≈20%
+  Coefficient:                   1.20x
+```
 ```
 ADM → ENT    = 104,400 × 0.10 = 10,440 DA
 ADM → APPRO  = 104,400 × 0.15 = 15,660 DA
@@ -153,10 +153,10 @@ DIST   = 109,200 + 20,880 + 10,344 = 140,424 DA
 ### Unités d'œuvre du mois (données du mois complet)
 
 ```
-APPRO   →  8,400 kg d'aluminium acheté
-AT-D    →  1,200 heures machine
-AT-ML   →  2,400 heures MOD
-DIST    →  720 ensembles livrés
+APPRO   → 12,000 mètres (tissus/fournitures)
+AT-D    → 7,200 mètres coupés
+AT-ML   → 2,400 heures MOD
+DIST    → 1,800 tenues
 ```
 
 ### Calcul des CUO
@@ -199,25 +199,25 @@ DIST      140,424       720 ens.   195.03 DA/ens
 
 ---
 
-## ÉTAPE 4: CHARGES DIRECTES DE LA COMMANDE N°47
+## ÉTAPE 4: CHARGES DIRECTES DE LA COMMANDE (EXEMPLE)
 
 ### Données de la commande
 
 ```
-Client: Promoteur immobilier
+Client: Entreprise de travaux publics
 Destination: Boumerdès
-Commande: 120 ensembles de menuiserie aluminium
+Commande: 600 tenues professionnelles EPI
 ```
 
 ### Charges directes
 
 ```
-Aluminium (1,800 kg × 420 DA/kg)      = 756,000 DA
-Vitrage                                = 108,000 DA
-Quincaillerie / accessoires            = 54,000 DA
-Main-d'œuvre directe (480 h × 320)    = 153,600 DA
+Tissu principal                          = 840,000 DA
+Fournitures de couture                    = 72,000 DA
+Bandes réfléchissantes et renforts EPI    = 96,000 DA
+Main-d'œuvre directe couture              = 192,000 DA
                                          ──────────
-TOTAL CHARGES DIRECTES                = 1,071,600 DA
+TOTAL CHARGES DIRECTES                   = 1,200,000 DA
 ```
 
 ---
@@ -225,10 +225,10 @@ TOTAL CHARGES DIRECTES                = 1,071,600 DA
 ## ÉTAPE 5: CONSOMMATION DE LA COMMANDE PAR CENTRE
 
 ```
-APPRO:   1,800 kg
-AT-D:      240 heures machine
-AT-ML:     480 heures MOD
-DIST:      120 ensembles livrés
+APPRO:   3,000 mètres
+AT-D:    3,000 mètres coupés
+AT-ML:     600 heures MOD
+DIST:      600 tenues
 ```
 
 ---
@@ -338,7 +338,7 @@ Prix unitaire = 1,472,087 ÷ 120 = 12,267.39 DA/ensemble
 
 ```
 ╔════════════════════════════════════╗
-║    DEVIS ELCO-BAT SARL             ║
+║    DEVIS PROTECTEX EPI SARL        ║
 ║    Commande N°47                   ║
 ║    Boumerdès                       ║
 ╚════════════════════════════════════╝

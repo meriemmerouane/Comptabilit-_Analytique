@@ -74,7 +74,8 @@ def test_imports():
     # Test 6: Fichiers de base
     print("\n[*] Test 6: Vérifier les fichiers de base...")
     base_dir = Path(__file__).parent
-    required_files = ['app.py', 'data_elcobat.json', 'requirements.txt']
+    required_files = ['app.py', 'requirements.txt']
+    json_config_files = ['data_protectex_epi.json', 'data_elcobat.json']
     
     files_ok = True
     for file in required_files:
@@ -83,6 +84,12 @@ def test_imports():
         else:
             print(f"  ✗ {file} MANQUANT")
             files_ok = False
+    
+    if any((base_dir / file).exists() for file in json_config_files):
+        print(f"  ✓ Fichier JSON de configuration trouvé")
+    else:
+        print(f"  ✗ Aucun fichier JSON de configuration trouvé")
+        files_ok = False
     
     if files_ok:
         tests_passed += 1
@@ -124,12 +131,19 @@ def test_imports():
         return 1
 
 def test_data_loading():
-    """Test du chargement des données ELCO-BAT"""
-    print("[*] Test 8: Charger les données ELCO-BAT...")
+    """Test du chargement des données PROTECTEX"""
+    print("[*] Test 8: Charger les données PROTECTEX...")
     try:
         import json
         base_dir = Path(__file__).parent
-        with open(base_dir / 'data_elcobat.json', 'r') as f:
+        data_file = None
+        for candidate in ['data_protectex_epi.json', 'data_elcobat.json']:
+            if (base_dir / candidate).exists():
+                data_file = base_dir / candidate
+                break
+
+        assert data_file is not None, "Aucun fichier JSON de configuration trouvé"
+        with open(data_file, 'r') as f:
             data = json.load(f)
         
         # Vérifier les clés principales
@@ -137,7 +151,7 @@ def test_data_loading():
         for key in required_keys:
             assert key in data, f"Clé '{key}' manquante"
         
-        print(f"[✓] SUCCÈS: Données chargées ({len(data)} sections)")
+        print(f"[✓] SUCCÈS: Données chargées depuis {data_file.name} ({len(data)} sections)")
         return True
     except (IOError, json.JSONDecodeError, AssertionError) as e:
         print(f"[✗] ÉCHOUÉ: {e}")

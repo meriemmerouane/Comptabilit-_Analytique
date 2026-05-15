@@ -1,4 +1,4 @@
-# Script PowerShell pour lancer ELCO-BAT SARL
+# Script PowerShell pour lancer PROTECTEX EPI SARL
 # ==============================================
 
 # Couleurs
@@ -7,7 +7,7 @@ $Yellow = [System.ConsoleColor]::Yellow
 $Red = [System.ConsoleColor]::Red
 
 Write-Host "╔════════════════════════════════════════════════════════╗" -ForegroundColor $Green
-Write-Host "║  ELCO-BAT SARL - Outil de Calcul de Prix de Revient  ║" -ForegroundColor $Green
+Write-Host "║  PROTECTEX EPI SARL - Outil de Calcul de Prix de Revient  ║" -ForegroundColor $Green
 Write-Host "║  Méthode des sections homogènes                       ║" -ForegroundColor $Green
 Write-Host "╚════════════════════════════════════════════════════════╝" -ForegroundColor $Green
 Write-Host ""

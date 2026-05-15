@@ -70,20 +70,20 @@ Frais imputés = 224.92 × 240 = 53,981 DA
 
 $$\text{Prix de revient} = \text{Charges directes} + \sum \text{Frais indirects imputés}$$
 
-**Composition:**
-- Charges directes: 1,071,600 DA
-  - Aluminium: 756,000 DA
-  - Vitrage: 108,000 DA
-  - Quincaillerie: 54,000 DA
-  - MOD directe: 153,600 DA
+**Composition (exemple PROTECTEX):**
+- Charges directes: 1,200,000 DA
+  - Tissu principal: 840,000 DA
+  - Fournitures de couture: 72,000 DA
+  - Bandes réfléchissantes / renforts: 96,000 DA
+  - MOD directe (couture): 192,000 DA
 
-- Frais indirects: 155,139 DA
-  - APPRO: 21,258 DA
-  - AT-D: 53,981 DA
-  - AT-ML: 56,496 DA
-  - DIST: 23,404 DA
+- Frais indirects: ≈254,835 DA
+  - APPRO: ≈25,431 DA
+  - AT-D: ≈112,144 DA
+  - AT-ML: ≈69,350 DA
+  - DIST: ≈47,892 DA
 
-**Total: 1,226,739 DA**
+**Total: ≈1,454,835 DA**
 
 ### Étape 7: Devis avec marge
 
@@ -111,7 +111,7 @@ Résultat = 1,472,087 - 1,226,739 = 245,348 DA
 Taux = 245,348 ÷ 1,472,087 × 100 = 16.66%
 ```
 
-## Centres d'analyse (ELCO-BAT SARL)
+## Centres d'analyse (PROTECTEX EPI SARL)
 
 ### Centres auxiliaires
 - **ADM (Administration):** Frais administratifs, gestion
@@ -127,10 +127,10 @@ Taux = 245,348 ÷ 1,472,087 × 100 = 16.66%
 
 | Centre | Unité d'œuvre | NUO du mois |
 |--------|---------------|------------|
-| APPRO | kg d'aluminium acheté | 8,400 kg |
-| AT-D | Heure machine | 1,200 Hmach |
+| APPRO | mètres de tissus/fournitures | 12,000 m |
+| AT-D | mètres coupés | 7,200 m |
 | AT-ML | Heure MOD | 2,400 HMOD |
-| DIST | Nombre d'ensembles | 720 ensembles |
+| DIST | Nombre de tenues | 1,800 tenues |
 
 ## Indices de contrôle
 
@@ -216,4 +216,4 @@ L'application Streamlit automatise tous ces calculs et permet de:
 
 ---
 
-**Document technique - ELCO-BAT SARL**
+**Document technique - PROTECTEX EPI SARL**

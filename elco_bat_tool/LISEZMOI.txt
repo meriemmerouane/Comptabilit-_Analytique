@@ -43,7 +43,7 @@ http://localhost:8501
 
 L'application est opérationnelle quand:
 - Les 6 modules s'affichent dans la barre latérale ✓
-- Les données ELCO-BAT sont pré-chargées ✓
+- Les données PROTECTEX sont pré-chargées ✓
 - Les graphiques s'affichent ✓
 - Vous pouvez naviguer librement ✓
 

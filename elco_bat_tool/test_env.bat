@@ -6,7 +6,7 @@ setlocal enabledelayedexpansion
 
 echo.
 echo ╔════════════════════════════════════════════════════════════════╗
-echo ║   TEST D'INSTALLATION - ELCO-BAT SARL                          ║
+echo ║   TEST D'INSTALLATION - PROTECTEX EPI SARL                      ║
 echo ║   Vérification de l'environnement Python et Streamlit          ║
 echo ╚════════════════════════════════════════════════════════════════╝
 echo.
@@ -69,12 +69,15 @@ if exist app.py (
 )
 
 echo.
-echo [*] Test 6: Vérifier data_elcobat.json...
-if exist data_elcobat.json (
-    echo [✓] SUCCÈS: data_elcobat.json trouvé
+echo [*] Test 6: Vérifier le fichier de configuration JSON...
+if exist data_protectex_epi.json (
+    echo [✓] SUCCÈS: data_protectex_epi.json trouvé
+    set /a tests_passed+=1
+) elif exist data_elcobat.json (
+    echo [✓] SUCCÈS: data_elcobat.json trouvé (fichier de secours)
     set /a tests_passed+=1
 ) else (
-    echo [✗] ÉCHOUÉ: data_elcobat.json manquant
+    echo [✗] ÉCHOUÉ: Aucun fichier JSON de configuration trouvé
     set /a tests_failed+=1
 )
 

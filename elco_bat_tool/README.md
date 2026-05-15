@@ -1,10 +1,10 @@
-# 🏭 ELCO-BAT SARL - Outil de Calcul du Prix de Revient
+# 🏭 PROTECTEX EPI SARL - Outil de Calcul du Prix de Revient
 
-Application Streamlit interactive pour le calcul du prix de revient d'une commande industrielle par la **méthode des sections homogènes**.
+Application Streamlit interactive pour le calcul du prix de revient d'une commande de vêtements professionnels (EPI) par la **méthode des sections homogènes**.
 
 ## 📋 Description
 
-Cet outil permet de calculer précisément le prix de revient d'une commande de **120 ensembles de menuiserie aluminium** en appliquant la méthode des sections homogènes, puis de proposer un devis avec marge.
+Cet outil permet de calculer précisément le prix de revient d'une commande de **tenues professionnelles (EPI)** en appliquant la méthode des sections homogènes, puis de proposer un devis avec marge.
 
 ## 🎯 Fonctionnalités
 
@@ -45,27 +45,29 @@ Cet outil permet de calculer précisément le prix de revient d'une commande de 
 - Graphiques d'analyse (composition, sensibilité)
 - **Exportation du devis en fichier texte**
 
-## 📊 Données par défaut (ELCO-BAT SARL)
+## 📊 Données par défaut (PROTECTEX EPI SARL)
+
+La configuration par défaut est chargée automatiquement depuis `data_protectex_epi.json`.
 
 **Charges indirectes (DA):**
 - Loyer: 180,000
-- Électricité: 96,000
-- Entretien: 72,000
-- Salaires: 240,000
-- Amortissement: 120,000
-- Fournitures: 24,000
-- Transport: 60,000
+- Électricité / énergie: 96,000
+- Entretien matériels: 72,000
+- Salaires personnel indirect: 240,000
+- Amortissement machines: 120,000
+- Fournitures administratives: 24,000
+- Transport / livraison: 60,000
 - **Total: 792,000 DA**
 
 **Centres d'analyse:**
 - Auxiliaires: Administration (ADM), Entretien (ENT)
-- Principaux: Approvisionnement (APPRO), Atelier Découpe (AT-D), Atelier Montage-Laquage (AT-ML), Distribution (DIST)
+- Principaux: Approvisionnement (APPRO), Atelier Coupe (AT-D), Atelier Couture/Assemblage (AT-ML), Distribution / Finition (DIST)
 
 **Unités d'œuvre:**
-- APPRO: 8,400 kg
-- AT-D: 1,200 heures machine
+- APPRO: 12,000 mètres (tissus / fournitures)
+- AT-D: 7,200 mètres coupés
 - AT-ML: 2,400 heures MOD
-- DIST: 720 ensembles
+- DIST: 1,800 tenues
 
 ## 🚀 Installation et utilisation
 
@@ -77,7 +79,7 @@ Cet outil permet de calculer précisément le prix de revient d'une commande de 
 
 1. **Cloner ou télécharger le dossier**
 ```bash
-cd "c:\Users\ASUS\Desktop\GLOBALE\2CS_S2\tpcofi\elco_bat_tool"
+cd "c:\Users\HP\Videos\Comptabilit-_Analytique\elco_bat_tool"
 ```
 
 2. **Créer un environnement virtuel (recommandé)**
@@ -118,16 +120,16 @@ L'application s'ouvrira automatiquement dans votre navigateur à `http://localho
 - **Données de commande**: Entrer les valeurs spécifiques dans Module 5
 - **Marge**: Ajuster le taux dans Module 6
 
-## 📊 Résultats obtenus (données ELCO-BAT)
+## 📊 Résultats obtenus (données PROTECTEX)
 
-**Prix de revient final: 1,226,739 DA**
+**Prix de revient final (exemple par défaut): ≈ 1,454,835 DA**
 
 Répartition:
-- Charges directes: 1,071,600 DA
-- Frais indirects: 155,139 DA
+- Charges directes: 1,200,000 DA
+- Frais indirects imputés (commande): ≈ 254,835 DA
 
-**Devis avec 20% de marge: 1,472,087 DA**
-- Prix unitaire: 12,267 DA/ensemble
+**Devis avec 20% de marge: ≈ 1,745,802 DA**
+- Prix unitaire: ≈ 2,910 DA/tenue
 
 ## 🎨 Interface utilisateur
 
@@ -163,8 +165,8 @@ Pour adapter l'outil à une autre entreprise:
 
 ## 📞 Support
 
-Pour toute question sur les calculs, consultez les méthodes décrites dans le document ELCO-BAT SARL.
+Pour toute question sur les calculs, consultez les méthodes décrites dans la documentation du projet.
 
 ---
 
-**Développé avec ❤️ pour ELCO-BAT SARL**
+**Développé pour PROTECTEX EPI SARL**

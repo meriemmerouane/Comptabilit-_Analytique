@@ -1,6 +1,6 @@
 # 📚 INDEX DE LA DOCUMENTATION
 
-Bienvenue dans le dossier **ELCO-BAT SARL - Outil de Calcul du Prix de Revient**
+Bienvenue dans le dossier **PROTECTEX EPI SARL - Outil de Calcul du Prix de Revient**
 
 ## 🚀 PAR OÙ COMMENCER?
 
@@ -43,7 +43,7 @@ Bienvenue dans le dossier **ELCO-BAT SARL - Outil de Calcul du Prix de Revient**
 
 | Fichier | Description | Type |
 |---------|-------------|------|
-| [`data_elcobat.json`](data_elcobat.json) | Données ELCO-BAT en JSON | Configuration |
+| [`data_protectex_epi.json`](data_protectex_epi.json) | Données PROTECTEX (format JSON) | Configuration |
 | [`requirements.txt`](requirements.txt) | Dépendances Python | Configuration |
 | [`.streamlit/config.toml`](.streamlit/config.toml) | Configuration Streamlit | Configuration |
 
@@ -197,16 +197,18 @@ Formula mathématique?
 
 ---
 
-## 📊 DONNÉES ELCO-BAT SARL
+## 📊 DONNÉES PROTECTEX EPI SARL
 
-**Fichier source:** [`data_elcobat.json`](data_elcobat.json)
+**Fichier source principal:** [`data_protectex_epi.json`](data_protectex_epi.json)
+
+**Fichier source de secours:** [`data_elcobat.json`](data_elcobat.json)
 
 **Charges indirectes totales:** 792,000 DA
 
-**Résultat exemple (120 ensembles):**
-- Prix de revient: 1,226,739 DA
-- Avec 20% marge: 1,472,087 DA
-- Résultat analytique: 245,348 DA
+**Résultat exemple (600 tenues):**
+- Prix de revient: ≈1,454,835 DA
+- Avec 20% marge: ≈1,745,802 DA
+- Résultat analytique: ≈290,967 DA
 
 ---
 

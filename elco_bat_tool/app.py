@@ -1,6 +1,8 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import json
+from pathlib import Path
 from datetime import datetime
 import plotly.express as px
 import plotly.graph_objects as go
@@ -13,11 +15,25 @@ from historique_commandes import (
 
 # Configuration de la page
 st.set_page_config(
-    page_title="ELCO-BAT - Calcul du Prix de Revient",
-    page_icon="💼",
+    page_title="PROTEX EPI - Calcul du Prix de Revient",
+    page_icon="🦺",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+
+def charger_configuration_json(fichier='data_protectex_epi.json'):
+    base_dir = Path(__file__).resolve().parent
+    candidates = [base_dir / fichier, base_dir / 'data_elcobat.json']
+    for candidate in candidates:
+        if candidate.exists():
+            try:
+                with open(candidate, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except Exception:
+                continue
+    return None
+
+configuration_par_defaut = charger_configuration_json()
 
 # CSS Professionnel - Comptabilité
 st.markdown("""
@@ -193,74 +209,135 @@ st.markdown("""
 if 'initialized' not in st.session_state:
     st.session_state.initialized = True
     
-    st.session_state.charges_indirectes = {
-        'Loyer': 180000,
-        'Électricité': 96000,
-        'Entretien': 72000,
-        'Salaires': 240000,
-        'Amortissement': 120000,
-        'Fournitures': 24000,
-        'Transport': 60000
-    }
+    if configuration_par_defaut:
+        st.session_state.charges_indirectes = configuration_par_defaut.get('charges_indirectes', {
+            'Loyer': 180000,
+            'Électricité / énergie': 96000,
+            'Entretien matériels': 72000,
+            'Salaires personnel indirect': 240000,
+            'Amortissement machines': 120000,
+            'Fournitures de bureau': 24000,
+            'Transport / livraison': 60000
+        })
+        st.session_state.centres = configuration_par_defaut.get('centres', {
+            'ADM': 'Auxiliaire',
+            'ENT': 'Auxiliaire',
+            'APPRO': 'Principal',
+            'AT-D': 'Principal',
+            'AT-ML': 'Principal',
+            'DIST': 'Principal'
+        })
+        st.session_state.cles_repartition = configuration_par_defaut.get('cles_repartition_primaire', {
+            'Loyer': {'ADM': 0.10, 'ENT': 0.05, 'APPRO': 0.10, 'AT-D': 0.30, 'AT-ML': 0.35, 'DIST': 0.10},
+            'Électricité / énergie': {'ADM': 0.05, 'ENT': 0.05, 'APPRO': 0.05, 'AT-D': 0.40, 'AT-ML': 0.40, 'DIST': 0.05},
+            'Entretien matériels': {'ADM': 0.0, 'ENT': 0.60, 'APPRO': 0.05, 'AT-D': 0.15, 'AT-ML': 0.15, 'DIST': 0.05},
+            'Salaires personnel indirect': {'ADM': 0.30, 'ENT': 0.10, 'APPRO': 0.15, 'AT-D': 0.20, 'AT-ML': 0.15, 'DIST': 0.10},
+            'Amortissement machines': {'ADM': 0.0, 'ENT': 0.10, 'APPRO': 0.0, 'AT-D': 0.45, 'AT-ML': 0.45, 'DIST': 0.0},
+            'Fournitures de bureau': {'ADM': 0.40, 'ENT': 0.0, 'APPRO': 0.20, 'AT-D': 0.10, 'AT-ML': 0.10, 'DIST': 0.20},
+            'Transport / livraison': {'ADM': 0.0, 'ENT': 0.0, 'APPRO': 0.10, 'AT-D': 0.0, 'AT-ML': 0.0, 'DIST': 0.90}
+        })
+        st.session_state.repart_secondaire = configuration_par_defaut.get('cles_repartition_secondaire', {
+            'ADM': {'ENT': 0.10, 'APPRO': 0.15, 'AT-D': 0.25, 'AT-ML': 0.30, 'DIST': 0.20},
+            'ENT': {'ADM': 0.15, 'APPRO': 0.10, 'AT-D': 0.30, 'AT-ML': 0.35, 'DIST': 0.10}
+        })
+        st.session_state.charges_directes = configuration_par_defaut.get('charges_directes', {
+            'Tissu principal': 840000,
+            'Fournitures de couture': 72000,
+            'Bandes réfléchissantes et renforts EPI': 96000,
+            'Main-d’œuvre directe couture': 192000
+        })
+        st.session_state.unites_oeuvre = configuration_par_defaut.get('unites_oeuvre', {
+            'APPRO': 12000,
+            'AT-D': 7200,
+            'AT-ML': 2400,
+            'DIST': 1800
+        })
+        st.session_state.consommation_command = configuration_par_defaut.get('consommation_commande', {
+            'APPRO': 3000,
+            'AT-D': 3000,
+            'AT-ML': 600,
+            'DIST': 600
+        })
+        st.session_state.commande = configuration_par_defaut.get('commande', {})
+    else:
+        st.session_state.charges_indirectes = {
+            'Loyer': 180000,
+            'Électricité / énergie': 96000,
+            'Entretien matériels': 72000,
+            'Salaires personnel indirect': 240000,
+            'Amortissement machines': 120000,
+            'Fournitures de bureau': 24000,
+            'Transport / livraison': 60000
+        }
+        st.session_state.centres = {
+            'ADM': 'Auxiliaire',
+            'ENT': 'Auxiliaire',
+            'APPRO': 'Principal',
+            'AT-D': 'Principal',
+            'AT-ML': 'Principal',
+            'DIST': 'Principal'
+        }
+        st.session_state.cles_repartition = {
+            'Loyer': {'ADM': 0.10, 'ENT': 0.05, 'APPRO': 0.10, 'AT-D': 0.30, 'AT-ML': 0.35, 'DIST': 0.10},
+            'Électricité / énergie': {'ADM': 0.05, 'ENT': 0.05, 'APPRO': 0.05, 'AT-D': 0.40, 'AT-ML': 0.40, 'DIST': 0.05},
+            'Entretien matériels': {'ADM': 0.0, 'ENT': 0.60, 'APPRO': 0.05, 'AT-D': 0.15, 'AT-ML': 0.15, 'DIST': 0.05},
+            'Salaires personnel indirect': {'ADM': 0.30, 'ENT': 0.10, 'APPRO': 0.15, 'AT-D': 0.20, 'AT-ML': 0.15, 'DIST': 0.10},
+            'Amortissement machines': {'ADM': 0.0, 'ENT': 0.10, 'APPRO': 0.0, 'AT-D': 0.45, 'AT-ML': 0.45, 'DIST': 0.0},
+            'Fournitures de bureau': {'ADM': 0.40, 'ENT': 0.0, 'APPRO': 0.20, 'AT-D': 0.10, 'AT-ML': 0.10, 'DIST': 0.20},
+            'Transport / livraison': {'ADM': 0.0, 'ENT': 0.0, 'APPRO': 0.10, 'AT-D': 0.0, 'AT-ML': 0.0, 'DIST': 0.90}
+        }
+        st.session_state.repart_secondaire = {
+            'ADM': {'ENT': 0.10, 'APPRO': 0.15, 'AT-D': 0.25, 'AT-ML': 0.30, 'DIST': 0.20},
+            'ENT': {'ADM': 0.15, 'APPRO': 0.10, 'AT-D': 0.30, 'AT-ML': 0.35, 'DIST': 0.10}
+        }
+        st.session_state.charges_directes = {
+            'Tissu principal': 840000,
+            'Fournitures de couture': 72000,
+            'Bandes réfléchissantes et renforts EPI': 96000,
+            'Main-d’œuvre directe (couturières)': 192000
+        }
+        st.session_state.unites_oeuvre = {
+            'APPRO': 12000,
+            'AT-D': 7200,
+            'AT-ML': 2400,
+            'DIST': 1800
+        }
+        st.session_state.consommation_command = {
+            'APPRO': 3000,
+            'AT-D': 3000,
+            'AT-ML': 600,
+            'DIST': 600
+        }
+        st.session_state.commande = {
+            'numero': 47,
+            'client': 'Entreprise de travaux publics',
+            'localisation': 'Boumerdès',
+            'description': 'Fabrication de 600 tenues professionnelles EPI',
+            'nb_tenues': 600
+        }
     
-    st.session_state.centres = {
-        'ADM': 'Auxiliaire',
-        'ENT': 'Auxiliaire',
-        'APPRO': 'Principal',
-        'AT-D': 'Principal',
-        'AT-ML': 'Principal',
-        'DIST': 'Principal'
-    }
-    
-    st.session_state.cles_repartition = {
-        'Loyer': {'ADM': 0.10, 'ENT': 0.05, 'APPRO': 0.10, 'AT-D': 0.30, 'AT-ML': 0.35, 'DIST': 0.10},
-        'Électricité': {'ADM': 0.05, 'ENT': 0.05, 'APPRO': 0.05, 'AT-D': 0.40, 'AT-ML': 0.40, 'DIST': 0.05},
-        'Entretien': {'ADM': 0.0, 'ENT': 0.60, 'APPRO': 0.05, 'AT-D': 0.15, 'AT-ML': 0.15, 'DIST': 0.05},
-        'Salaires': {'ADM': 0.30, 'ENT': 0.10, 'APPRO': 0.15, 'AT-D': 0.20, 'AT-ML': 0.15, 'DIST': 0.10},
-        'Amortissement': {'ADM': 0.0, 'ENT': 0.10, 'APPRO': 0.0, 'AT-D': 0.45, 'AT-ML': 0.45, 'DIST': 0.0},
-        'Fournitures': {'ADM': 0.40, 'ENT': 0.0, 'APPRO': 0.20, 'AT-D': 0.10, 'AT-ML': 0.10, 'DIST': 0.20},
-        'Transport': {'ADM': 0.0, 'ENT': 0.0, 'APPRO': 0.10, 'AT-D': 0.0, 'AT-ML': 0.0, 'DIST': 0.90}
-    }
-    
-    st.session_state.repart_secondaire = {
-        'ADM': {'ENT': 0.10, 'APPRO': 0.15, 'AT-D': 0.25, 'AT-ML': 0.30, 'DIST': 0.20},
-        'ENT': {'APPRO': 0.10, 'AT-D': 0.35, 'AT-ML': 0.45, 'DIST': 0.10}
-    }
-    
-    st.session_state.charges_directes = {
-        'Aluminium': 756000,
-        'Vitrage': 108000,
-        'Quincaillerie': 54000,
-        'MOD': 153600
-    }
-    
-    st.session_state.unites_oeuvre = {
-        'APPRO': 8400,
-        'AT-D': 1200,
-        'AT-ML': 2400,
-        'DIST': 720
-    }
-    
-    st.session_state.consommation_command = {
-        'APPRO': 1800,
-        'AT-D': 240,
-        'AT-ML': 480,
-        'DIST': 120
+    st.session_state.centre_labels = {
+        'ADM': 'Administration',
+        'ENT': 'Entretien',
+        'APPRO': 'Achat Tissus/Fournitures',
+        'AT-D': 'Atelier Coupe',
+        'AT-ML': 'Atelier Couture/Assemblage',
+        'DIST': 'Finition/Conditionnement'
     }
     
     # Informations du client
     st.session_state.client_info = {
-        'nom': '',
+        'nom': configuration_par_defaut.get('commande', {}).get('client', '') if configuration_par_defaut else '',
         'adresse': '',
         'telephone': '',
         'email': '',
-        'lieu_livraison': 'Boumerdès'
+        'lieu_livraison': configuration_par_defaut.get('commande', {}).get('localisation', 'Boumerdès') if configuration_par_defaut else 'Boumerdès'
     }
 
 # En-tête principal
 st.markdown("""
 <div class="main-header">
-    <h1>ELCO-BAT SARL</h1>
+    <h1>PROTECTEX EPI SARL</h1>
     <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Calcul du Prix de Revient - Méthode des Sections Homogènes</p>
 </div>
 """, unsafe_allow_html=True)
@@ -286,8 +363,8 @@ with st.sidebar:
     st.markdown("---")
     st.markdown("""
     <div style="text-align: center; padding: 15px; color: white;">
-        <strong>ELCO-BAT SARL</strong><br>
-        <small>Menuiserie Aluminium</small><br>
+        <strong>PROTEX EPI SARL</strong><br>
+        <small>Confection de vêtements professionnels / EPI</small><br>
         <small>Tizi Ouzou</small>
     </div>
     """, unsafe_allow_html=True)
@@ -642,10 +719,56 @@ elif module == "Répartition Secondaire":
     
     # Calcul du vidage
     st.subheader("Vidage des Centres Auxiliaires")
-    
+
+    # Résolution correcte des prestations réciproques entre auxiliaires (ADM <-> ENT)
+    # On traite le cas spécifique ADM/ENT par un système linéaire si les deux existent
+    if 'ADM' in centres_aux and 'ENT' in centres_aux:
+        A = repartition_secondaire.get('ADM', 0)
+        B = repartition_secondaire.get('ENT', 0)
+        # x: part (%) d'ENT vers ADM ; y: part (%) d'ADM vers ENT
+        x = repart_sec_updated.get('ENT', {}).get('ADM', 0)
+        y = repart_sec_updated.get('ADM', {}).get('ENT', 0)
+
+        if (x or y):
+            denom = 1 - x * y
+            A_real = (A + x * B) / denom if denom != 0 else A
+            E_real = B + y * A_real
+        else:
+            A_real = A
+            E_real = B
+
+        # afficher détails
+        with st.expander(f"{st.session_state.centre_labels.get('ADM','ADM')} (réel): {A_real:,.0f} DA"):
+            st.write(f"Base primaire ADM: {A:,.0f} DA")
+            st.write(f"Contribution ENT → ADM: {x:.0%} de ENT réel")
+
+        with st.expander(f"{st.session_state.centre_labels.get('ENT','ENT')} (réel): {E_real:,.0f} DA"):
+            st.write(f"Base primaire ENT: {B:,.0f} DA")
+            st.write(f"Contribution ADM → ENT: {y:.0%} de ADM réel")
+
+        # Répartir ADM réel vers les centres (sauf ENT)
+        for centre_dest, cle in repart_sec_updated.get('ADM', {}).items():
+            if centre_dest not in ['ADM', 'ENT']:
+                montant_transfer = A_real * cle
+                repartition_secondaire[centre_dest] += montant_transfer
+                st.write(f"ADM → {centre_dest}: {cle:.0%} × {A_real:,.0f} = {montant_transfer:,.0f} DA")
+
+        # Répartir ENT réel vers les centres (sauf ADM)
+        for centre_dest, cle in repart_sec_updated.get('ENT', {}).items():
+            if centre_dest not in ['ADM', 'ENT']:
+                montant_transfer = E_real * cle
+                repartition_secondaire[centre_dest] += montant_transfer
+                st.write(f"ENT → {centre_dest}: {cle:.0%} × {E_real:,.0f} = {montant_transfer:,.0f} DA")
+
+        repartition_secondaire['ADM'] = 0
+        repartition_secondaire['ENT'] = 0
+
+    # Traiter les autres centres auxiliaires normalement
     for centre_aux in centres_aux:
+        if centre_aux in ['ADM', 'ENT']:
+            continue
         montant_aux = repartition_secondaire[centre_aux]
-        with st.expander(f"{centre_aux}: {montant_aux:,.0f} DA"):
+        with st.expander(f"{st.session_state.centre_labels.get(centre_aux, centre_aux)}: {montant_aux:,.0f} DA"):
             for centre_dest, cle in repart_sec_updated[centre_aux].items():
                 montant_transfer = montant_aux * cle
                 repartition_secondaire[centre_dest] += montant_transfer
@@ -661,7 +784,7 @@ elif module == "Répartition Secondaire":
         for centre in centres_prin:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">{centre}</div>
+                <div class="metric-label">{st.session_state.centre_labels.get(centre, centre)}</div>
                 <div class="metric-value">{repartition_secondaire[centre]:,.0f} DA</div>
             </div>
             """, unsafe_allow_html=True)
@@ -763,27 +886,27 @@ elif module == "Coûts d'UO":
     
     for centre in centres_prin:
         col1, col2, col3 = st.columns(3)
-        
+
         with col1:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">Total {centre}</div>
+                <div class="metric-label">Total {st.session_state.centre_labels.get(centre, centre)}</div>
                 <div class="metric-value">{repartition_secondaire[centre]:,.0f} DA</div>
             </div>
             """, unsafe_allow_html=True)
-        
+
         with col2:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">NUO {centre}</div>
+                <div class="metric-label">NUO {st.session_state.centre_labels.get(centre, centre)}</div>
                 <div class="metric-value">{unites_updated[centre]}</div>
             </div>
             """, unsafe_allow_html=True)
-        
+
         with col3:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">CUO {centre}</div>
+                <div class="metric-label">CUO {st.session_state.centre_labels.get(centre, centre)}</div>
                 <div class="metric-value">{cuos[centre]:,.2f}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -998,7 +1121,7 @@ elif module == "Devis":
     st.markdown("---")
     
     prix_vente = prix_revient + marge_montant
-    nb_units = int(st.session_state.consommation_command.get('DIST', 1))
+    nb_units = int(st.session_state.commande.get('nb_tenues', st.session_state.consommation_command.get('DIST', 1)))
     prix_unitaire = prix_vente / nb_units
     resultat = prix_vente - prix_revient
     taux_marge = (resultat / prix_vente) * 100
@@ -1203,11 +1326,13 @@ elif module == "Devis":
     donnees_devis = {
         'numero_devis': f"DEVIS-2024-{int(datetime.now().timestamp()) % 10000:04d}",
         'date': datetime.now().strftime('%d/%m/%Y'),
-        'client': st.session_state.client_info['nom'] if st.session_state.client_info['nom'] else 'Client Non Renseigné',
+        'client': st.session_state.client_info['nom'] if st.session_state.client_info['nom'] else 'Entreprise de travaux publics',
         'adresse': st.session_state.client_info['adresse'],
         'telephone': st.session_state.client_info['telephone'],
         'email': st.session_state.client_info['email'],
         'lieu_livraison': st.session_state.client_info['lieu_livraison'],
+        'commande_numero': st.session_state.commande.get('numero', 47),
+        'commande_description': st.session_state.commande.get('description', ''),
         'charges_directes': st.session_state.charges_directes,
         'frais_indirects': st.session_state.total_frais_indirects,
         'prix_revient': prix_revient,
@@ -1215,7 +1340,7 @@ elif module == "Devis":
         'marge': marge_montant,
         'taux_marge': taux_marge,
         'prix_unitaire': prix_unitaire,
-        'quantite': 120,
+        'quantite': int(st.session_state.commande.get('nb_tenues', st.session_state.consommation_command.get('DIST', 600))),
         'resultat': resultat
     }
     
@@ -1227,7 +1352,7 @@ elif module == "Devis":
             st.download_button(
                 "Telecharger Devis (PDF)",
                 pdf_bytes,
-                f"Devis_ELCOBAT_{datetime.now().strftime('%Y%m%d')}.pdf",
+                f"Devis_PROTEX_EPI_{datetime.now().strftime('%Y%m%d')}.pdf",
                 "application/pdf",
                 use_container_width=True
             )
@@ -1238,7 +1363,7 @@ elif module == "Devis":
         if st.button("Enregistrer et Historiser cette Commande", use_container_width=True, key="btn_save_command"):
             # Calcul des capacités résiduelles pour chaque centre
             capacites_residuelles = {}
-            capacites = {'APPRO': 8400, 'AT-D': 1200, 'AT-ML': 2400, 'DIST': 720}
+            capacites = {'APPRO': 12000, 'AT-D': 7200, 'AT-ML': 2400, 'DIST': 1800}
             
             for centre in capacites:
                 cons = st.session_state.consommation_command.get(centre, 0)
@@ -1246,7 +1371,7 @@ elif module == "Devis":
             
             # Ajouter à l'historique
             nouvelle_cmd = ajouter_commande(
-                client_nom=st.session_state.client_info['nom'] or 'Client Non Renseigné',
+                client_nom=st.session_state.client_info['nom'] or 'Entreprise de travaux publics',
                 client_adresse=st.session_state.client_info['adresse'],
                 client_telephone=st.session_state.client_info['telephone'],
                 client_email=st.session_state.client_info['email'],
@@ -1752,6 +1877,6 @@ elif module == "Tableau de Bord":
 st.markdown("---")
 st.markdown("""
 <footer style="text-align: center; color: #999; font-size: 12px; padding: 20px 0;">
-ELCO-BAT SARL © 2024 | Calcul du Prix de Revient - Méthode des Sections Homogènes | Version 2.0 avec Historique & KPIs
+PROTEX EPI SARL © 2024 | Calcul du Prix de Revient - Méthode des Sections Homogènes | Version 2.0 avec Historique & KPIs
 </footer>
 """, unsafe_allow_html=True)

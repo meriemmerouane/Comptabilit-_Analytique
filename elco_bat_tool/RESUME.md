@@ -1,4 +1,4 @@
-# 📊 RÉSUMÉ DU PROJET - ELCO-BAT SARL
+# 📊 RÉSUMÉ DU PROJET - PROTECTEX EPI SARL
 
 ## 🎯 Objectif
 
@@ -16,7 +16,7 @@ elco_bat_tool/
 ├── run.bat               # Lancement automatique (Windows - batch)
 ├── run.ps1               # Lancement automatique (PowerShell)
 │
-├── data_elcobat.json     # Données ELCO-BAT au format JSON
+├── data_protectex_epi.json     # Données PROTECTEX EPI au format JSON
 ├── .streamlit/
 │   └── config.toml       # Configuration Streamlit (thème, etc.)
 │
@@ -59,7 +59,7 @@ Automatiquement à `http://localhost:8501`
 ## 📋 Les 6 modules
 
 ### Module 1 - Paramétrage des charges ✅
-- Saisie des 7 charges indirectes (défaut: ELCO-BAT)
+- Saisie des 7 charges indirectes (défaut: PROTECTEX)
 - Configuration des clés de répartition (7 × 6 clés)
 - Identification des charges directes (4 catégories)
 - **Graphique:** Distribution des charges en pie chart
@@ -99,11 +99,11 @@ Automatiquement à `http://localhost:8501`
 ### Module 4 - Coûts d'UO ✅
 - Nombre d'UO par centre (paramétrable)
 - Formule: `CUO = Total Centre ÷ NUO`
-- **CUO calculés:**
-  - APPRO: 11.81 DA/kg
-  - AT-D: 224.92 DA/h
-  - AT-ML: 117.70 DA/h
-  - DIST: 195.03 DA/ensemble
+- **CUO calculés (exemple PROTECTEX):**
+  - APPRO: ≈ 8.48 DA/mètre
+  - AT-D: ≈ 37.38 DA/mètre coupé
+  - AT-ML: ≈ 115.58 DA/h
+  - DIST: ≈ 79.85 DA/tenue
 
 ### Module 5 - Fiche de la commande ✅
 - Charges directes: 1,071,600 DA
@@ -131,22 +131,22 @@ Automatiquement à `http://localhost:8501`
 
 ---
 
-## 🔐 Données ELCO-BAT SARL
+## 🔐 Données PROTECTEX EPI SARL
 
 ### Entreprise fictive réaliste
 ```
-Nom: ELCO-BAT SARL
-Secteur: Menuiserie aluminium
+Nom: PROTECTEX EPI SARL
+Secteur: Confection de vêtements professionnels et EPI
 Localisation: Tizi Ouzou
-Spécialité: Portes, fenêtres, volets
+Spécialité: Tenues professionnelles et équipements de protection
 ```
 
 ### Commande type
 ```
 Numéro: #47
-Client: Promoteur immobilier
+Client: Entreprise de travaux publics
 Destination: Boumerdès
-Produit: 120 ensembles de menuiserie aluminium
+Produit: 600 tenues professionnelles EPI
 ```
 
 ### Centres d'analyse
@@ -164,10 +164,10 @@ PRINCIPAUX (reçoivent les frais):
 
 ### Unités d'œuvre du mois
 ```
-APPRO   → 8,400 kg d'aluminium acheté
-AT-D    → 1,200 heures machine
+APPRO   → 12,000 mètres (tissus/fournitures)
+AT-D    → 7,200 mètres coupés
 AT-ML   → 2,400 heures MOD (Main-d'Œuvre Directe)
-DIST    → 720 ensembles livrés
+DIST    → 1,800 tenues
 ```
 
 ---
@@ -233,7 +233,7 @@ $$\text{Résultat} = \text{Chiffre d'affaires} - \text{Prix de revient}$$
 | `requirements.txt` | Dépendances Python |
 | `run.bat` | Lancement Windows batch |
 | `run.ps1` | Lancement PowerShell |
-| `data_elcobat.json` | Données JSON |
+| `data_protectex_epi.json` | Données PROTECTEX EPI (JSON) |
 | `.streamlit/config.toml` | Configuration thème |
 | `README.md` | Documentation complète |
 | `DEMARRAGE.md` | Guide démarrage rapide |
@@ -278,7 +278,7 @@ Taux de marge:         19.99%
 
 Pour adapter à une autre entreprise:
 
-1. Modifier `data_elcobat.json` avec vos données
+1. Modifier `data_protectex_epi.json` avec vos données
 2. Ou modifier directement les valeurs initiales dans `app.py` (lignes 30-60)
 3. Relancer l'application
 
@@ -350,7 +350,7 @@ Cette application enseigne:
 | Critère | Statut | Preuve |
 |---------|--------|--------|
 | Les 6 modules fonctionnent | ✅ | Navigation fluide |
-| Données ELCO-BAT intégrées | ✅ | Valeurs par défaut correctes |
+| Données PROTECTEX EPI intégrées | ✅ | Valeurs par défaut correctes |
 | Calculs corrects | ✅ | Totaux vérifiés = 792,000 DA |
 | Interface intuitive | ✅ | Pas de documentation pour utiliser |
 | Graphiques clairs | ✅ | Visualisations Plotly |

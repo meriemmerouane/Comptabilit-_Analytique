@@ -1,81 +1,81 @@
-# 🚀 DÉMARRAGE RAPIDE
+## 💾 Données PROTECTEX par défaut
 
-## Installation (première utilisation)
-
-### Étape 1: Ouvrir le dossier de l'application
-
-Accédez au dossier:
+### Charges indirectes (total: 792,000 DA)
 ```
-c:\Users\ASUS\Desktop\GLOBALE\2CS_S2\tpcofi\elco_bat_tool
-```
-
-### Étape 2: Exécuter le fichier de lancement
-
-**Sur Windows (recommandé):**
-- Double-cliquez sur `run.bat`
-- Attendez que l'application se charge
-
-**Ou par terminal (PowerShell/CMD):**
-
-```powershell
-# Windows PowerShell
-python -m venv venv
-venv\Scripts\activate
-pip install -r requirements.txt
-streamlit run app.py
+Loyer                     180,000 DA
+Électricité / énergie       96,000 DA
+Entretien matériels         72,000 DA
+Salaires personnel indirect 240,000 DA
+Amortissement machines     120,000 DA
+Fournitures administratives 24,000 DA
+Transport / livraison       60,000 DA
 ```
 
-### Étape 3: L'application se lance
+### Centres d'analyse
+```
+AUXILIAIRES:
+   • ADM (Administration)
+   • ENT (Entretien)
 
-- Votre navigateur s'ouvrira automatiquement
-- Adresse locale: `http://localhost:8501`
+PRINCIPAUX:
+   • APPRO (Approvisionnement tissus/fournitures)
+   • AT-D (Atelier Coupe)
+   • AT-ML (Atelier Couture/Assemblage)
+   • DIST (Distribution / Finition)
+```
+
+### Unités d'œuvre (du mois)
+```
+APPRO   → 12,000 mètres (tissus/fournitures)
+AT-D    → 7,200 mètres coupés
+AT-ML   → 2,400 heures MOD
+DIST    → 1,800 tenues
+```
 
 ---
 
-## 📖 Guide d'utilisation - Flux complet
+## 🎯 Résultats attendus (exemple PROTECTEX)
 
-### Module 1️⃣ - Paramétrage des charges
+### Répartition primaire (exemple)
+```
+ADM:   104,400 DA (charges admin)
+ENT:    93,000 DA (entretien)
+APPRO:  73,200 DA
+AT-D:  207,600 DA
+AT-ML: 204,600 DA
+DIST:  109,200 DA
+```
 
-**Onglet "Charges indirectes":**
-1. Vérifiez/modifiez les 7 charges indirectes
-2. Le total s'affiche automatiquement
-3. Un graphique en secteurs montre la distribution
+### Après répartition secondaire (valeurs PROTECTEX attendues)
+```
+APPRO:  ≈101,724 DA
+AT-D:   ≈269,143 DA
+AT-ML:  ≈277,401 DA
+DIST:   ≈143,732 DA
+TOTAL:  792,000 DA ✓
+```
 
-**Onglet "Clés de répartition":**
-1. Sélectionnez une charge (ex: "Loyer")
-2. Ajustez les sliders par centre
-3. Le total des clés doit être 100%
-4. Consultez le tableau récapitulatif
+### Coûts d'UO (exemple PROTECTEX)
+```
+APPRO   ≈ 8.48 DA/mètre
+AT-D    ≈ 37.38 DA/mètre coupé
+AT-ML   ≈ 115.58 DA/h MOD
+DIST    ≈ 79.85 DA/tenue
+```
 
-**Onglet "Charges directes":**
-1. Saisissez les charges directes de la commande
-2. Vérifiez le total
-3. Cet onglet peut être révisité dans Module 5
+### Prix final (exemple PROTECTEX)
+```
+Charges directes:    1,200,000 DA
+Frais indirects imputés: ≈ 254,835 DA
+─────────────────────────────
+Prix de revient:     ≈ 1,454,835 DA
 
-✅ **Résultat:** Configuration prête pour les calculs
+Avec 20% de marge:     ≈ 290,967 DA
+─────────────────────────────
+PRIX DE VENTE:       ≈ 1,745,802 DA
 
----
-
-### Module 2️⃣ - Répartition primaire
-
-**Tableau de répartition:**
-- Affiche la ventilation de chaque charge par centre
-- Colonne "Total": somme par charge
-- Ligne "Totaux colonnes": montant par centre
-
-**Graphiques:**
-- **"Par centre":** Barres montrant le total par centre
-- **"Par charge":** Lignes montrant l'évolution des charges
-
-✅ **Résultat:** Totaux périmaires calculés pour chaque centre
-
----
-
-### Module 3️⃣ - Répartition secondaire
-
-**Clés de répartition secondaire:**
-1. Pour chaque centre auxiliaire (ADM, ENT):
-   - Sliders pour distribution vers autres centres
+Prix unitaire (600 tenues): ≈ 2,910 DA/tenue
+```
    - Must sum to 100%
 
 **Vidage automatique:**
@@ -164,7 +164,7 @@ streamlit run app.py
 
 ---
 
-## 💾 Données ELCO-BAT par défaut
+## 💾 Données PROTECTEX EPI par défaut
 
 ### Charges indirectes (total: 792,000 DA)
 ```
@@ -269,7 +269,7 @@ Par ensemble:           12,267 DA/U
 
 ### Modifier les données d'une autre entreprise
 
-1. Ouvrez `data_elcobat.json`
+1. Ouvrez `data_protectex_epi.json` (ou `data_elcobat.json` en secours)
 2. Modificquez les valeurs JSON
 3. Pour intégrer: modifiez `app.py` pour charger le JSON
 4. Relancez l'application
