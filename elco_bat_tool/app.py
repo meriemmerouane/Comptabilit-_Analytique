@@ -317,12 +317,12 @@ if 'initialized' not in st.session_state:
         }
     
     st.session_state.centre_labels = {
-        'ADM': 'Administration',
-        'ENT': 'Entretien',
-        'APPRO': 'Achat Tissus/Fournitures',
-        'AT-D': 'Atelier Coupe',
-        'AT-ML': 'Atelier Couture/Assemblage',
-        'DIST': 'Finition/Conditionnement'
+        'ADM': 'ADM — Administration',
+        'ENT': 'ENT — Entretien',
+        'APPRO': 'APPRO — Achat Tissus/Fournitures',
+        'AT-D': 'AT-D — Atelier Coupe',
+        'AT-ML': 'AT-ML — Atelier Couture/Assemblage',
+        'DIST': 'DIST — Finition/Conditionnement'
     }
     
     # Informations du client
@@ -333,6 +333,19 @@ if 'initialized' not in st.session_state:
         'email': '',
         'lieu_livraison': configuration_par_defaut.get('commande', {}).get('localisation', 'Boumerdès') if configuration_par_defaut else 'Boumerdès'
     }
+
+# Fonction pour convertir les codes des centres en libellés affichables
+def label_centre(code):
+    """Retourne le libellé complet d'un centre pour l'affichage."""
+    labels = {
+        'ADM': 'ADM — Administration',
+        'ENT': 'ENT — Entretien',
+        'APPRO': 'APPRO — Achat Tissus/Fournitures',
+        'AT-D': 'AT-D — Atelier Coupe',
+        'AT-ML': 'AT-ML — Atelier Couture/Assemblage',
+        'DIST': 'DIST — Finition/Conditionnement'
+    }
+    return labels.get(code, code)
 
 # En-tête principal
 st.markdown("""
@@ -486,7 +499,7 @@ if module == "Paramétrage":
             st.markdown("**Centres Auxiliaires**")
             for centre in centres_aux:
                 cles_updated[centre] = st.slider(
-                    centre,
+                    label_centre(centre),
                     0.0, 1.0,
                     st.session_state.cles_repartition[charge_selected][centre],
                     0.05
@@ -496,7 +509,7 @@ if module == "Paramétrage":
             st.markdown("**Centres Principaux (1/2)**")
             for centre in centres_prin[:2]:
                 cles_updated[centre] = st.slider(
-                    centre,
+                    label_centre(centre),
                     0.0, 1.0,
                     st.session_state.cles_repartition[charge_selected][centre],
                     0.05
@@ -506,7 +519,7 @@ if module == "Paramétrage":
             st.markdown("**Centres Principaux (2/2)**")
             for centre in centres_prin[2:]:
                 cles_updated[centre] = st.slider(
-                    centre,
+                    label_centre(centre),
                     0.0, 1.0,
                     st.session_state.cles_repartition[charge_selected][centre],
                     0.05
@@ -640,7 +653,7 @@ elif module == "Répartition Primaire":
         for centre in centres_aux:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">{centre}</div>
+                <div class="metric-label">{label_centre(centre)}</div>
                 <div class="metric-value">{repartition_primaire[centre]:,.0f} DA</div>
             </div>
             """, unsafe_allow_html=True)
@@ -650,14 +663,15 @@ elif module == "Répartition Primaire":
         for centre in centres_prin:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">{centre}</div>
+                <div class="metric-label">{label_centre(centre)}</div>
                 <div class="metric-value">{repartition_primaire[centre]:,.0f} DA</div>
             </div>
             """, unsafe_allow_html=True)
     
     # Graphique
+    centres_labels = [label_centre(c) for c in repartition_primaire.keys()]
     fig = px.bar(
-        x=list(repartition_primaire.keys()),
+        x=centres_labels,
         y=list(repartition_primaire.values()),
         title="Répartition Primaire par Centre",
         labels={'x': 'Centre', 'y': 'Montant (DA)'}
@@ -689,7 +703,7 @@ elif module == "Répartition Secondaire":
     
     repart_sec_updated = {}
     for centre_aux in centres_aux:
-        st.markdown(f"**{centre_aux} - Répartition**")
+        st.markdown(f"**{label_centre(centre_aux)} - Répartition**")
         repart_sec_updated[centre_aux] = {}
         
         col1, col2 = st.columns(2)
@@ -698,7 +712,7 @@ elif module == "Répartition Secondaire":
             for centre_dest in centres_aux:
                 if centre_dest != centre_aux:
                     repart_sec_updated[centre_aux][centre_dest] = st.slider(
-                        f"{centre_aux} → {centre_dest}",
+                        f"{label_centre(centre_aux)} → {label_centre(centre_dest)}",
                         0.0, 1.0,
                         st.session_state.repart_secondaire[centre_aux].get(centre_dest, 0.0),
                         0.05
@@ -707,7 +721,7 @@ elif module == "Répartition Secondaire":
         with col2:
             for centre_dest in centres_prin:
                 repart_sec_updated[centre_aux][centre_dest] = st.slider(
-                    f"{centre_aux} → {centre_dest}",
+                    f"{label_centre(centre_aux)} → {label_centre(centre_dest)}",
                     0.0, 1.0,
                     st.session_state.repart_secondaire[centre_aux].get(centre_dest, 0.0),
                     0.05
@@ -751,14 +765,14 @@ elif module == "Répartition Secondaire":
             if centre_dest not in ['ADM', 'ENT']:
                 montant_transfer = A_real * cle
                 repartition_secondaire[centre_dest] += montant_transfer
-                st.write(f"ADM → {centre_dest}: {cle:.0%} × {A_real:,.0f} = {montant_transfer:,.0f} DA")
+                st.write(f"{label_centre('ADM')} → {label_centre(centre_dest)}: {cle:.0%} × {A_real:,.0f} = {montant_transfer:,.0f} DA")
 
         # Répartir ENT réel vers les centres (sauf ADM)
         for centre_dest, cle in repart_sec_updated.get('ENT', {}).items():
             if centre_dest not in ['ADM', 'ENT']:
                 montant_transfer = E_real * cle
                 repartition_secondaire[centre_dest] += montant_transfer
-                st.write(f"ENT → {centre_dest}: {cle:.0%} × {E_real:,.0f} = {montant_transfer:,.0f} DA")
+                st.write(f"{label_centre('ENT')} → {label_centre(centre_dest)}: {cle:.0%} × {E_real:,.0f} = {montant_transfer:,.0f} DA")
 
         repartition_secondaire['ADM'] = 0
         repartition_secondaire['ENT'] = 0
@@ -768,11 +782,11 @@ elif module == "Répartition Secondaire":
         if centre_aux in ['ADM', 'ENT']:
             continue
         montant_aux = repartition_secondaire[centre_aux]
-        with st.expander(f"{st.session_state.centre_labels.get(centre_aux, centre_aux)}: {montant_aux:,.0f} DA"):
+        with st.expander(f"{label_centre(centre_aux)}: {montant_aux:,.0f} DA"):
             for centre_dest, cle in repart_sec_updated[centre_aux].items():
                 montant_transfer = montant_aux * cle
                 repartition_secondaire[centre_dest] += montant_transfer
-                st.write(f"→ {centre_dest}: {cle:.0%} × {montant_aux:,.0f} = {montant_transfer:,.0f} DA")
+                st.write(f"→ {label_centre(centre_dest)}: {cle:.0%} × {montant_aux:,.0f} = {montant_transfer:,.0f} DA")
         repartition_secondaire[centre_aux] = 0
     
     # Résultats finaux
@@ -836,7 +850,7 @@ elif module == "Coûts d'UO":
     for i, centre in enumerate(centres_prin):
         if i % 2 == 0:
             with col1:
-                st.markdown(f"**{centre}**")
+                st.markdown(f"**{label_centre(centre)}**")
                 unites_updated[centre] = st.number_input(
                     "Nombre d'Unités d'Œuvre (N.U.O)",
                     value=st.session_state.unites_oeuvre[centre],
@@ -846,7 +860,7 @@ elif module == "Coûts d'UO":
                 )
         else:
             with col2:
-                st.markdown(f"**{centre}**")
+                st.markdown(f"**{label_centre(centre)}**")
                 unites_updated[centre] = st.number_input(
                     "Nombre d'Unités d'Œuvre (N.U.O)",
                     value=st.session_state.unites_oeuvre[centre],
@@ -872,7 +886,7 @@ elif module == "Coûts d'UO":
         cuos[centre] = cuo
         
         data_cuos.append({
-            'Centre': centre,
+            'Centre': label_centre(centre),
             'Total Répartition Secondaire (DA)': total_centre,
             'Nombre d\'Unités d\'Œuvre': nuo,
             'Coût Unitaire d\'Œuvre (DA/UO)': cuo
@@ -890,7 +904,7 @@ elif module == "Coûts d'UO":
         with col1:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">Total {st.session_state.centre_labels.get(centre, centre)}</div>
+                <div class="metric-label">Total {label_centre(centre)}</div>
                 <div class="metric-value">{repartition_secondaire[centre]:,.0f} DA</div>
             </div>
             """, unsafe_allow_html=True)
@@ -898,7 +912,7 @@ elif module == "Coûts d'UO":
         with col2:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">NUO {st.session_state.centre_labels.get(centre, centre)}</div>
+                <div class="metric-label">NUO {label_centre(centre)}</div>
                 <div class="metric-value">{unites_updated[centre]}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -906,7 +920,7 @@ elif module == "Coûts d'UO":
         with col3:
             st.markdown(f"""
             <div class="metric-box">
-                <div class="metric-label">CUO {st.session_state.centre_labels.get(centre, centre)}</div>
+                <div class="metric-label">CUO {label_centre(centre)}</div>
                 <div class="metric-value">{cuos[centre]:,.2f}</div>
             </div>
             """, unsafe_allow_html=True)
@@ -975,14 +989,14 @@ elif module == "Fiche de Commande":
         if i % 2 == 0:
             with col1:
                 consommation_updated[centre] = st.number_input(
-                    f"{centre} (UO)",
+                    f"{label_centre(centre)} (UO)",
                     value=st.session_state.consommation_command[centre],
                     step=1
                 )
         else:
             with col2:
                 consommation_updated[centre] = st.number_input(
-                    f"{centre} (UO)",
+                    f"{label_centre(centre)} (UO)",
                     value=st.session_state.consommation_command[centre],
                     step=1
                 )
@@ -1001,7 +1015,7 @@ elif module == "Fiche de Commande":
         frais_indirects[centre] = frais
         
         data_frais.append({
-            'Centre': centre,
+            'Centre': label_centre(centre),
             'Consommation (UO)': cons,
             'CUO (DA/UO)': cuo,
             'Frais (DA)': frais
@@ -1158,7 +1172,7 @@ elif module == "Devis":
     
     st.subheader("Résultat Analytique")
     
-    col1, col2, col3, col4 = st.columns(4)
+    col1, col2 = st.columns(2)
     
     with col1:
         st.markdown(f"""
@@ -1170,25 +1184,9 @@ elif module == "Devis":
     
     with col2:
         st.markdown(f"""
-        <div class="metric-box metric-red">
-            <div class="metric-label">Taux de Marque (% PV)</div>
-            <div class="metric-value">{taux_marge:.1f}%</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col3:
-        st.markdown(f"""
         <div class="metric-box metric-purple">
             <div class="metric-label">CA Prévu</div>
             <div class="metric-value">{prix_vente:,.0f} DA</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    with col4:
-        st.markdown(f"""
-        <div class="metric-box metric-blue">
-            <div class="metric-label">Coefficient</div>
-            <div class="metric-value">{prix_vente/prix_revient:.2f}x</div>
         </div>
         """, unsafe_allow_html=True)
     
@@ -1246,6 +1244,7 @@ elif module == "Devis":
     
     with col1:
         centres = ['APPRO', 'AT-D', 'AT-ML', 'DIST']
+        centres_labels = [label_centre(c) for c in centres]
         capacites = [8400, 1200, 2400, 720]
         consommations = [
             st.session_state.consommation_command.get('APPRO', 0),
@@ -1256,8 +1255,8 @@ elif module == "Devis":
         disponibles = [cap - c for cap, c in zip(capacites, consommations)]
         
         fig_util = go.Figure(data=[
-            go.Bar(name='Utilisé', x=centres, y=consommations, marker_color='lightblue'),
-            go.Bar(name='Disponible', x=centres, y=disponibles, marker_color='lightgray')
+            go.Bar(name='Utilisé', x=centres_labels, y=consommations, marker_color='lightblue'),
+            go.Bar(name='Disponible', x=centres_labels, y=disponibles, marker_color='lightgray')
         ])
         fig_util.update_layout(barmode='stack', xaxis_title="Centre", yaxis_title="Unités", height=400)
         st.plotly_chart(fig_util, use_container_width=True)
@@ -1265,7 +1264,7 @@ elif module == "Devis":
     with col2:
         taux_util = [(c/cap)*100 for c, cap in zip(consommations, capacites)]
         df_capacite = pd.DataFrame({
-            'Centre': centres,
+            'Centre': centres_labels,
             'Capacité': capacites,
             'Consommation': consommations,
             'Taux utilisé (%)': [f"{t:.1f}%" for t in taux_util],
@@ -1453,7 +1452,7 @@ elif module == "Tableau de Bord":
             st.markdown("---")
             
             # Deuxième ligne de KPIs
-            col1, col2, col3, col4 = st.columns(4)
+            col1, col2 = st.columns(2)
             
             with col1:
                 st.markdown(f"""
@@ -1471,26 +1470,10 @@ elif module == "Tableau de Bord":
                 </div>
                 """, unsafe_allow_html=True)
             
-            with col3:
-                st.markdown(f"""
-                <div class="metric-box metric-purple">
-                    <div class="metric-label">Coefficient Moyen</div>
-                    <div class="metric-value">{kpis['coefficient_moyen']:.2f}x</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col4:
-                st.markdown(f"""
-                <div class="metric-box metric-blue">
-                    <div class="metric-label">Taux de Marque Moyen</div>
-                    <div class="metric-value">{kpis['taux_marge_moyen']:.1f}%</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
             st.markdown("---")
             
             # Analyse du meilleur et pire résultat
-            col1, col2, col3 = st.columns(3)
+            col1, col2 = st.columns(2)
             
             with col1:
                 st.markdown(f"""
@@ -1505,15 +1488,6 @@ elif module == "Tableau de Bord":
                 <div class="metric-box metric-red">
                     <div class="metric-label">Pire Resultat</div>
                     <div class="metric-value">{kpis['pire_resultat']:,.0f} DA</div>
-                </div>
-                """, unsafe_allow_html=True)
-            
-            with col3:
-                profit_margin = ((kpis['resultat_total'] / kpis['prix_vente_total']) * 100) if kpis['prix_vente_total'] > 0 else 0
-                st.markdown(f"""
-                <div class="metric-box metric-orange">
-                    <div class="metric-label">Marge Nette Globale</div>
-                    <div class="metric-value">{profit_margin:.1f}%</div>
                 </div>
                 """, unsafe_allow_html=True)
         
@@ -1601,28 +1575,14 @@ elif module == "Tableau de Bord":
             if not df_clients.empty:
                 st.dataframe(df_clients, use_container_width=True, hide_index=True)
                 
-                # Graphiques
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    fig_clients_resultat = px.bar(
-                        df_clients,
-                        x='Client',
-                        y='Résultat Total (DA)',
-                        title="Résultat Total par Client",
-                        color='Résultat Moyen (DA)',
-                        color_continuous_scale='RdYlGn'
-                    )
-                    st.plotly_chart(fig_clients_resultat, use_container_width=True)
-                
-                with col2:
-                    fig_clients_ca = px.pie(
-                        df_clients,
-                        values='CA Total (DA)',
-                        names='Client',
-                        title="Distribution du CA par Client"
-                    )
-                    st.plotly_chart(fig_clients_ca, use_container_width=True)
+                # Graphique CA par client
+                fig_clients_ca = px.pie(
+                    df_clients,
+                    values='CA Total (DA)',
+                    names='Client',
+                    title="Distribution du CA par Client"
+                )
+                st.plotly_chart(fig_clients_ca, use_container_width=True)
             else:
                 st.info("Pas de données client disponibles.")
         
