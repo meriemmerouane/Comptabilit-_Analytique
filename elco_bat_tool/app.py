@@ -38,39 +38,58 @@ configuration_par_defaut = charger_configuration_json()
 # CSS Professionnel - Comptabilité
 st.markdown("""
     <style>
-    /* Variables de couleurs professionnelles */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+    /* Variables de couleurs professionnelles (Charte Protectex) */
     :root {
-        --primary: #1F3A93;
-        --secondary: #2A4BA5;
-        --accent: #d4a574;
-        --success: #2d5016;
-        --danger: #8b3a3a;
-        --light-bg: #f5f5f5;
-        --border: #ddd;
-        --kpi-blue: #1F3A93;
-        --kpi-green: #27AE60;
-        --kpi-orange: #E67E22;
-        --kpi-purple: #8E44AD;
-        --kpi-red: #C0392B;
+        --primary: #122B4F; /* Bleu Marine Protectex */
+        --secondary: #0A1B35;
+        --accent: #F1802D; /* Orange Protectex */
+        --accent-hover: #D66B1F;
+        --success: #10B981;
+        --danger: #EF4444;
+        --light-bg: #F8FAFC;
+        --card-bg: #FFFFFF;
+        --border: #E2E8F0;
+        --text-main: #1E293B;
+        --text-muted: #64748B;
+        --kpi-blue: #122B4F;
+        --kpi-green: #059669;
+        --kpi-orange: #F1802D;
+        --kpi-purple: #7C3AED;
+        --kpi-red: #DC2626;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     }
     
-    /* Police professionnelle */
+    /* Global styles */
+    .stApp {
+        background-color: var(--light-bg);
+    }
+    
     * {
-        font-family: 'Segoe UI', 'Arial', sans-serif;
+        font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
     }
     
     /* Sidebar personnalisée */
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #1F3A93 0%, #2A4BA5 100%);
+        background: linear-gradient(180deg, var(--secondary) 0%, var(--primary) 100%);
+        border-right: 1px solid rgba(255,255,255,0.1);
     }
     
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {
-        color: white !important;
+        color: rgba(255, 255, 255, 0.95) !important;
     }
     
     [data-testid="stSidebar"] label {
         color: white !important;
         font-weight: 600 !important;
+        letter-spacing: 0.5px;
+    }
+
+    [data-testid="stSidebar"] .stRadio > div {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 8px;
+        padding: 15px;
     }
     
     [data-testid="stSidebar"] > * {
@@ -79,128 +98,190 @@ st.markdown("""
     
     /* En-tête principal */
     .main-header {
-        background: linear-gradient(to right, #1F3A93, #2A4BA5);
+        background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
         color: white;
-        padding: 30px;
-        border-radius: 0;
-        margin: -35px -40px 30px -40px;
+        padding: 40px 40px;
+        border-radius: 0 0 20px 20px;
+        margin: -60px -40px 30px -40px;
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .main-header::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 30%;
+        background: linear-gradient(90deg, transparent, rgba(241, 128, 45, 0.2));
+        transform: skewX(-15deg);
     }
     
-    /* Cartes de section */
-    .section-card {
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 20px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    .main-header h1 {
+        font-weight: 800;
+        font-size: 2.4rem;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 1px;
     }
-    
-    /* Tableau professionnel */
-    .dataframe {
-        border-collapse: collapse;
+
+    .main-header p {
+        color: var(--accent);
+        font-weight: 600;
+        font-size: 1.1rem;
+        margin-top: 8px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
     }
     
     /* Métriques */
     .metric-box {
-        background: #f9f9f9;
-        border-left: 4px solid #1F3A93;
-        padding: 15px;
-        border-radius: 4px;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-left: 5px solid var(--primary);
+        padding: 20px;
+        border-radius: 10px;
         margin: 10px 0;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .metric-box:hover {
+        transform: translateY(-2px);
+        box-shadow: var(--shadow);
     }
     
-    .metric-blue {
-        border-left-color: #1F3A93 !important;
-    }
-    
-    .metric-green {
-        border-left-color: #27AE60 !important;
-    }
-    
-    .metric-orange {
-        border-left-color: #E67E22 !important;
-    }
-    
-    .metric-purple {
-        border-left-color: #8E44AD !important;
-    }
-    
-    .metric-red {
-        border-left-color: #C0392B !important;
-    }
+    .metric-blue { border-left-color: var(--kpi-blue) !important; }
+    .metric-green { border-left-color: var(--kpi-green) !important; }
+    .metric-orange { border-left-color: var(--kpi-orange) !important; }
+    .metric-purple { border-left-color: var(--kpi-purple) !important; }
+    .metric-red { border-left-color: var(--kpi-red) !important; }
     
     .metric-label {
-        color: #666;
-        font-size: 12px;
+        color: var(--text-muted);
+        font-size: 0.85rem;
         text-transform: uppercase;
-        letter-spacing: 0.5px;
-        font-weight: 600;
-        margin-bottom: 5px;
+        letter-spacing: 1px;
+        font-weight: 700;
+        margin-bottom: 8px;
     }
     
     .metric-value {
-        color: #1F3A93;
-        font-size: 24px;
-        font-weight: bold;
+        color: var(--text-main);
+        font-size: 1.75rem;
+        font-weight: 800;
+        line-height: 1.2;
     }
     
-    /* Boutons */
-    button {
-        border-radius: 4px;
+    /* Boutons Streamlit */
+    .stButton > button {
+        background-color: var(--accent) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 6px !important;
+        padding: 10px 24px !important;
+        font-weight: 600 !important;
+        transition: all 0.2s ease !important;
+        box-shadow: 0 2px 4px rgba(241, 128, 45, 0.3) !important;
+    }
+
+    .stButton > button:hover {
+        background-color: var(--accent-hover) !important;
+        transform: translateY(-1px) !important;
+        box-shadow: 0 4px 6px rgba(241, 128, 45, 0.4) !important;
+    }
+    
+    /* Onglets Streamlit */
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 8px;
+        background-color: #F1F5F9;
+        border-radius: 10px;
+        padding: 5px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        border-radius: 8px;
+        padding: 10px 20px;
+        background-color: transparent;
+        color: var(--text-muted);
         border: none;
-        padding: 8px 16px;
+        transition: all 0.2s;
+    }
+
+    .stTabs [aria-selected="true"] {
+        background-color: white !important;
+        color: var(--primary) !important;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         font-weight: 600;
     }
     
-    /* Onglets */
-    .tabs-container {
-        border-bottom: 2px solid #ddd;
-        margin-bottom: 20px;
-    }
-    
-    /* Validation */
+    /* Validation boxes (Utilisées dans st.markdown) */
     .validation-success {
-        background: #f0f8f0;
-        border: 1px solid #2d5016;
-        color: #2d5016;
-        padding: 12px;
-        border-radius: 4px;
-        margin: 10px 0;
+        background: #ECFDF5;
+        border: 1px solid #10B981;
+        color: #065F46;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 1px 2px rgba(16, 185, 129, 0.1);
     }
     
     .validation-error {
-        background: #f8f0f0;
-        border: 1px solid #8b3a3a;
-        color: #8b3a3a;
-        padding: 12px;
-        border-radius: 4px;
-        margin: 10px 0;
+        background: #FEF2F2;
+        border: 1px solid #EF4444;
+        color: #991B1B;
+        padding: 15px 20px;
+        border-radius: 8px;
+        margin: 15px 0;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 1px 2px rgba(239, 68, 68, 0.1);
     }
     
-    /* Tableau de données */
+    /* Tableaux natifs html (si utilisés) */
     table {
         width: 100%;
         border-collapse: collapse;
         margin: 15px 0;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     
     th {
-        background: #f5f5f5;
-        border: 1px solid #ddd;
-        padding: 12px;
+        background: var(--light-bg);
+        border-bottom: 2px solid var(--border);
+        padding: 12px 15px;
         text-align: left;
         font-weight: 600;
-        color: #1F3A93;
+        color: var(--primary);
+        text-transform: uppercase;
+        font-size: 0.85rem;
     }
     
     td {
-        border: 1px solid #ddd;
-        padding: 12px;
+        border-bottom: 1px solid var(--border);
+        padding: 12px 15px;
+        color: var(--text-main);
     }
     
     tr:hover {
-        background: #fafafa;
+        background: #F8FAFC;
+    }
+
+    /* DataFrame Streamlit */
+    [data-testid="stDataFrame"] {
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px solid var(--border);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
     </style>
 """, unsafe_allow_html=True)
@@ -350,17 +431,23 @@ def label_centre(code):
 # En-tête principal
 st.markdown("""
 <div class="main-header">
-    <h1>PROTECTEX EPI SARL</h1>
-    <p style="margin: 10px 0 0 0; font-size: 16px; opacity: 0.9;">Calcul du Prix de Revient - Méthode des Sections Homogènes</p>
+    <h1>PROTECTEX EPI</h1>
+    <p>Calcul du Prix de Revient - Méthode des Sections Homogènes</p>
 </div>
 """, unsafe_allow_html=True)
 
 # Navigation
 with st.sidebar:
-    st.markdown("---")
+    st.markdown("""
+    <div style="text-align: center; margin-bottom: 20px; padding-top: 10px;">
+        <h2 style="color: white; margin: 0; font-weight: 800; font-size: 1.8rem; letter-spacing: 1px;">PROTECTEX <span style="color: #F1802D;">EPI</span></h2>
+        <p style="color: rgba(255,255,255,0.7); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; margin-top: 5px;">Vêtements Professionnels</p>
+    </div>
+    <hr style="border-color: rgba(255,255,255,0.1); margin: 10px 0 20px 0;">
+    """, unsafe_allow_html=True)
     
     module = st.radio(
-        "Sélectionner un module:",
+        "Navigation",
         [
             "Paramétrage",
             "Répartition Primaire",
@@ -373,12 +460,12 @@ with st.sidebar:
         label_visibility="collapsed"
     )
     
-    st.markdown("---")
     st.markdown("""
-    <div style="text-align: center; padding: 15px; color: white;">
-        <strong>PROTEX EPI SARL</strong><br>
-        <small>Confection de vêtements professionnels / EPI</small><br>
-        <small>Tizi Ouzou</small>
+    <hr style="border-color: rgba(255,255,255,0.1); margin: 20px 0;">
+    <div style="text-align: center; padding: 15px; color: rgba(255,255,255,0.6);">
+        <small style="display: block; font-weight: 600; color: white;">PROTECTEX EPI SARL</small>
+        <small style="display: block; margin-top: 5px;">Confection de vêtements professionnels / EPI</small>
+        <small style="display: block; margin-top: 5px; color: #F1802D;">📍 Tizi Ouzou</small>
     </div>
     """, unsafe_allow_html=True)
 
@@ -1401,12 +1488,10 @@ elif module == "Tableau de Bord":
         st.info("Créez des devis et enregistrez-les pour voir apparaître les KPIs ici.")
     else:
         # Onglets principaux
-        tab_kpi, tab_historique, tab_analyse, tab_clients, tab_optimisation = st.tabs([
+        tab_kpi, tab_historique, tab_clients = st.tabs([
             "KPIs Globaux",
             "Historique des Commandes",
-            "Analyses Temporelles",
-            "Analyse par Client",
-            "Optimisation des Couts"
+            "Analyse par Client"
         ])
         
         with tab_kpi:
@@ -1518,54 +1603,7 @@ elif module == "Tableau de Bord":
             with col2:
                 if st.button("Réinitialiser l'historique", use_container_width=True):
                     st.warning("Cette action est irréversible!")
-        
-        with tab_analyse:
-            st.subheader("Évolution Temporelle des KPIs")
-            
-            df_evolution = obtenir_evolution_temporelle()
-            
-            if not df_evolution.empty:
-                # Graphique d'évolution du résultat cumulé
-                fig_cumul = go.Figure()
-                
-                fig_cumul.add_trace(go.Scatter(
-                    x=df_evolution['Date'],
-                    y=df_evolution['Cumul Résultat'],
-                    mode='lines+markers',
-                    name='Résultat Cumulé',
-                    line=dict(color='green', width=3),
-                    fill='tozeroy'
-                ))
-                
-                fig_cumul.update_layout(
-                    title="Cumul du Résultat dans le Temps",
-                    xaxis_title="Date",
-                    yaxis_title="Résultat Cumulé (DA)",
-                    hovermode='x unified',
-                    height=400
-                )
-                
-                st.plotly_chart(fig_cumul, use_container_width=True)
-                
-                # Graphique des résultats individuels
-                fig_resultats = px.bar(
-                    df_evolution,
-                    x='Date',
-                    y='Résultat',
-                    color='Coefficient',
-                    hover_data=['Client', 'Résultat'],
-                    title="Résultat par Commande",
-                    color_continuous_scale='RdYlGn'
-                )
-                
-                fig_resultats.update_layout(height=400)
-                st.plotly_chart(fig_resultats, use_container_width=True)
-                
-                # Tableau détaillé
-                st.markdown("**Détail Chronologique**")
-                st.dataframe(df_evolution, use_container_width=True, hide_index=True)
-            else:
-                st.info("Pas assez de données pour l'analyse temporelle.")
+
         
         with tab_clients:
             st.subheader("Performance par Client")
@@ -1585,252 +1623,7 @@ elif module == "Tableau de Bord":
                 st.plotly_chart(fig_clients_ca, use_container_width=True)
             else:
                 st.info("Pas de données client disponibles.")
-        
-        with tab_optimisation:
-            st.subheader("Optimisation des Couts - Predictions d'Amelioration")
-            
-            # Récupérer les données historiques
-            historique_data = charger_historique()
-            
-            if historique_data:
-                # Analyse des éléments de coûts
-                st.markdown("**PARTIE 1: Identification des Postes de Couts**")
-                
-                # Calculer les coûts moyens par poste
-                total_charges_directes_cum = {}
-                total_frais_indirects_cum = 0
-                nb_commandes = len(historique_data)
-                
-                for cmd in historique_data:
-                    for charge, montant in cmd['finances']['charges_directes'].items():
-                        if charge not in total_charges_directes_cum:
-                            total_charges_directes_cum[charge] = 0
-                        total_charges_directes_cum[charge] += montant
-                    total_frais_indirects_cum += cmd['finances']['frais_indirects']
-                
-                # Moyennes par poste
-                charges_moyennes = {k: v/nb_commandes for k, v in total_charges_directes_cum.items()}
-                frais_indirects_moyen = total_frais_indirects_cum / nb_commandes
-                
-                # Créer DataFrame des postes de coûts
-                postes_couts = []
-                total_cost = sum(charges_moyennes.values()) + frais_indirects_moyen
-                
-                for charge, montant in charges_moyennes.items():
-                    pct = (montant / total_cost) * 100
-                    postes_couts.append({
-                        'Poste': charge,
-                        'Cout Moyen (DA)': montant,
-                        '% du Total': pct,
-                        'Type': 'Charge Directe'
-                    })
-                
-                postes_couts.append({
-                    'Poste': 'Frais Indirects',
-                    'Cout Moyen (DA)': frais_indirects_moyen,
-                    '% du Total': (frais_indirects_moyen / total_cost) * 100,
-                    'Type': 'Charge Indirecte'
-                })
-                
-                df_postes = pd.DataFrame(postes_couts)
-                df_postes_sorted = df_postes.sort_values('Cout Moyen (DA)', ascending=False)
-                
-                # Affichage
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.dataframe(df_postes_sorted, use_container_width=True, hide_index=True)
-                
-                with col2:
-                    fig_postes = px.pie(
-                        df_postes_sorted,
-                        values='Cout Moyen (DA)',
-                        names='Poste',
-                        title='Distribution des Couts par Poste'
-                    )
-                    st.plotly_chart(fig_postes, use_container_width=True)
-                
-                st.markdown("---")
-                
-                # PARTIE 2: Scénarios d'optimisation
-                st.markdown("**PARTIE 2: Scenarios de Reduction des Couts**")
-                
-                col1, col2, col3 = st.columns(3)
-                
-                # Sliders de réduction
-                with col1:
-                    reduction_charges_directes = st.slider(
-                        "Reduction des Charges Directes (%)",
-                        0, 30, 5, 1,
-                        help="Négociation fournisseurs, optimisation achats"
-                    )
-                
-                with col2:
-                    reduction_frais_indirects = st.slider(
-                        "Reduction des Frais Indirects (%)",
-                        0, 20, 3, 1,
-                        help="Optimisation des ressources, réduction des coûts fixes"
-                    )
-                
-                with col3:
-                    reduction_marge = st.slider(
-                        "Augmentation de Marge (%)",
-                        0, 10, 2, 1,
-                        help="Augmentation du prix de vente ou du taux de marge"
-                    )
-                
-                st.markdown("---")
-                
-                # Calcul des impacts
-                st.markdown("**PREDICTIONS D'IMPACT**")
-                
-                # Scénario actuel
-                coût_moyen_actuel = sum(charges_moyennes.values()) + frais_indirects_moyen
-                marge_moyenne_actuelle = kpis['marge_moyenne']
-                prix_vente_moyen_actuel = coût_moyen_actuel * (1 + marge_moyenne_actuelle/100)
-                resultat_moyen_actuel = prix_vente_moyen_actuel - coût_moyen_actuel
-                
-                # Scénario optimisé
-                charges_optimisees = sum(charges_moyennes.values()) * (1 - reduction_charges_directes/100)
-                frais_optimises = frais_indirects_moyen * (1 - reduction_frais_indirects/100)
-                coût_moyen_optimise = charges_optimisees + frais_optimises
-                
-                nouvelle_marge = marge_moyenne_actuelle + reduction_marge
-                prix_vente_moyen_optimise = coût_moyen_optimise * (1 + nouvelle_marge/100)
-                resultat_moyen_optimise = prix_vente_moyen_optimise - coût_moyen_optimise
-                
-                # Gains potentiels
-                gain_par_commande = resultat_moyen_optimise - resultat_moyen_actuel
-                gain_total = gain_par_commande * nb_commandes
-                
-                # Affichage des résultats
-                col1, col2 = st.columns(2)
-                
-                with col1:
-                    st.subheader("Scenario Actuel")
-                    st.markdown(f"""
-                    <div class="metric-box">
-                        <div class="metric-label">Cout Moyen par Commande</div>
-                        <div class="metric-value">{coût_moyen_actuel:,.0f} DA</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    st.markdown(f"""
-                    <div class="metric-box">
-                        <div class="metric-label">Prix de Vente Moyen</div>
-                        <div class="metric-value">{prix_vente_moyen_actuel:,.0f} DA</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    st.markdown(f"""
-                    <div class="metric-box metric-green">
-                        <div class="metric-label">Resultat Moyen</div>
-                        <div class="metric-value">{resultat_moyen_actuel:,.0f} DA</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                
-                with col2:
-                    st.subheader("Scenario Optimise")
-                    st.markdown(f"""
-                    <div class="metric-box">
-                        <div class="metric-label">Cout Moyen par Commande</div>
-                        <div class="metric-value">{coût_moyen_optimise:,.0f} DA</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    st.markdown(f"""
-                    <div class="metric-box">
-                        <div class="metric-label">Prix de Vente Moyen</div>
-                        <div class="metric-value">{prix_vente_moyen_optimise:,.0f} DA</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    st.markdown(f"""
-                    <div class="metric-box metric-orange">
-                        <div class="metric-label">Resultat Moyen</div>
-                        <div class="metric-value">{resultat_moyen_optimise:,.0f} DA</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                
-                st.markdown("---")
-                st.subheader("Gains Potentiels")
-                
-                col1, col2, col3 = st.columns(3)
-                
-                with col1:
-                    economie_realisée = (reduction_charges_directes/100 * charges_optimisees) + (reduction_frais_indirects/100 * frais_optimises)
-                    st.markdown(f"""
-                    <div class="metric-box metric-blue">
-                        <div class="metric-label">Economie par Commande</div>
-                        <div class="metric-value">{gain_par_commande:,.0f} DA</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                
-                with col2:
-                    st.markdown(f"""
-                    <div class="metric-box metric-green">
-                        <div class="metric-label">Gain Total (annuel)</div>
-                        <div class="metric-value">{gain_total:,.0f} DA</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                
-                with col3:
-                    pct_amelioration = ((resultat_moyen_optimise / resultat_moyen_actuel) - 1) * 100
-                    st.markdown(f"""
-                    <div class="metric-box metric-purple">
-                        <div class="metric-label">Amelioration Resultat</div>
-                        <div class="metric-value">+{pct_amelioration:.1f}%</div>
-                    </div>
-                    """, unsafe_allow_html=True)
-                
-                st.markdown("---")
-                
-                # Graphique de comparaison
-                st.subheader("Comparaison Scenario Actuel vs Optimise")
-                
-                comparison_data = {
-                    'Scenario': ['Actuel', 'Optimise'],
-                    'Couts': [coût_moyen_actuel, coût_moyen_optimise],
-                    'Prix de Vente': [prix_vente_moyen_actuel, prix_vente_moyen_optimise],
-                    'Resultat': [resultat_moyen_actuel, resultat_moyen_optimise]
-                }
-                
-                fig_comparison = go.Figure()
-                fig_comparison.add_trace(go.Bar(name='Couts', x=comparison_data['Scenario'], y=comparison_data['Couts']))
-                fig_comparison.add_trace(go.Bar(name='Resultat', x=comparison_data['Scenario'], y=comparison_data['Resultat']))
-                
-                fig_comparison.update_layout(
-                    title='Comparaison: Scenario Actuel vs Optimise',
-                    xaxis_title='Scenario',
-                    yaxis_title='Montant (DA)',
-                    barmode='group',
-                    height=400
-                )
-                st.plotly_chart(fig_comparison, use_container_width=True)
-                
-                st.markdown("---")
-                
-                # Recommandations
-                st.markdown("**RECOMMANDATIONS D'OPTIMISATION**")
-                
-                recommendations = []
-                
-                # Analyser les postes majeurs
-                top_poste = df_postes_sorted.iloc[0]
-                recommendations.append(f"1. Priorite: Negocier le poste '{top_poste['Poste']}' ({top_poste['% du Total']:.1f}% du total)")
-                
-                if 'Salaires' in charges_moyennes or 'Salaires' in [p['Poste'] for p in postes_couts]:
-                    recommendations.append("2. Optimiser les couts de main d'oeuvre par une meilleure productivite")
-                
-                if 'Transport' in charges_moyennes or 'Transport' in [p['Poste'] for p in postes_couts]:
-                    recommendations.append("3. Negocier les couts de transport avec les prestataires")
-                
-                recommendations.append("4. Examiner les charges indirectes pour identifier les economies possibles")
-                recommendations.append("5. Augmenter progressivement la marge tarifaire avec une justification client")
-                recommendations.append("6. Revoir les processus pour eliminer les gaspillages")
-                
-                for rec in recommendations:
-                    st.info(rec)
-                
-            else:
-                st.warning("Pas assez de donnees historiques pour l'analyse d'optimisation.")
-                st.info("Creez et enregistrez au moins une commande pour acceder a cette fonction.")
+
 
 # Footer
 
