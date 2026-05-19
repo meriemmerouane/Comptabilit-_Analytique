@@ -1,11 +1,12 @@
 import json
 import os
+from pathlib import Path
 from datetime import datetime
 from typing import Dict, List, Optional
 import pandas as pd
 
 # Chemin du fichier historique
-HISTORIQUE_FILE = "commandes_historique.json"
+HISTORIQUE_FILE = Path(__file__).resolve().parent / "commandes_historique.json"
 
 def charger_historique() -> List[Dict]:
     """Charge l'historique des commandes depuis le fichier JSON"""
