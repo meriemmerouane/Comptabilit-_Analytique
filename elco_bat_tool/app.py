@@ -820,6 +820,7 @@ elif module == "Répartition Secondaire":
     
     # Calcul du vidage
     st.subheader("Vidage des Centres Auxiliaires")
+    st.info("Les sections auxiliaires sont vidées vers les sections principales selon les clés de répartition secondaire.")
 
     # Résolution correcte des prestations réciproques entre auxiliaires (ADM <-> ENT)
     # On traite le cas spécifique ADM/ENT par un système linéaire si les deux existent
@@ -838,28 +839,19 @@ elif module == "Répartition Secondaire":
             A_real = A
             E_real = B
 
-        # afficher détails
-        with st.expander(f"{st.session_state.centre_labels.get('ADM','ADM')} (réel): {A_real:,.0f} DA"):
-            st.write(f"Base primaire ADM: {A:,.0f} DA")
-            st.write(f"Contribution ENT → ADM: {x:.0%} de ENT réel")
 
-        with st.expander(f"{st.session_state.centre_labels.get('ENT','ENT')} (réel): {E_real:,.0f} DA"):
-            st.write(f"Base primaire ENT: {B:,.0f} DA")
-            st.write(f"Contribution ADM → ENT: {y:.0%} de ADM réel")
 
         # Répartir ADM réel vers les centres (sauf ENT)
         for centre_dest, cle in repart_sec_updated.get('ADM', {}).items():
             if centre_dest not in ['ADM', 'ENT']:
                 montant_transfer = A_real * cle
                 repartition_secondaire[centre_dest] += montant_transfer
-                st.write(f"{label_centre('ADM')} → {label_centre(centre_dest)}: {cle:.0%} × {A_real:,.0f} = {montant_transfer:,.0f} DA")
 
         # Répartir ENT réel vers les centres (sauf ADM)
         for centre_dest, cle in repart_sec_updated.get('ENT', {}).items():
             if centre_dest not in ['ADM', 'ENT']:
                 montant_transfer = E_real * cle
                 repartition_secondaire[centre_dest] += montant_transfer
-                st.write(f"{label_centre('ENT')} → {label_centre(centre_dest)}: {cle:.0%} × {E_real:,.0f} = {montant_transfer:,.0f} DA")
 
         repartition_secondaire['ADM'] = 0
         repartition_secondaire['ENT'] = 0
@@ -869,14 +861,20 @@ elif module == "Répartition Secondaire":
         if centre_aux in ['ADM', 'ENT']:
             continue
         montant_aux = repartition_secondaire[centre_aux]
-        with st.expander(f"{label_centre(centre_aux)}: {montant_aux:,.0f} DA"):
-            for centre_dest, cle in repart_sec_updated[centre_aux].items():
-                montant_transfer = montant_aux * cle
-                repartition_secondaire[centre_dest] += montant_transfer
-                st.write(f"→ {label_centre(centre_dest)}: {cle:.0%} × {montant_aux:,.0f} = {montant_transfer:,.0f} DA")
+        for centre_dest, cle in repart_sec_updated[centre_aux].items():
+            montant_transfer = montant_aux * cle
+            repartition_secondaire[centre_dest] += montant_transfer
         repartition_secondaire[centre_aux] = 0
     
     # Résultats finaux
+    st.subheader("Tableau de Répartition Secondaire")
+    df_repartition_secondaire = pd.DataFrame({
+        'Centre': [label_centre(c) for c in centres_aux + centres_prin],
+        'Type': [st.session_state.centres[c] for c in centres_aux + centres_prin],
+        'Total après vidage (DA)': [repartition_secondaire[c] for c in centres_aux + centres_prin]
+    })
+    st.dataframe(df_repartition_secondaire, use_container_width=True)
+
     st.subheader("Totaux Finaux des Centres Principaux")
     
     col1, col2 = st.columns(2)
@@ -1026,30 +1024,7 @@ elif module == "Fiche de Commande":
     
     st.subheader("Charges Directes")
     
-    col1, col2 = st.columns(2)
-    
-    charges_dir_updated = {}
-    cd_list = list(st.session_state.charges_directes.keys())
-    
-    for i, charge in enumerate(cd_list):
-        if i % 2 == 0:
-            with col1:
-                charges_dir_updated[charge] = st.number_input(
-                    charge,
-                    value=st.session_state.charges_directes[charge],
-                    step=1000,
-                    format="%d"
-                )
-        else:
-            with col2:
-                charges_dir_updated[charge] = st.number_input(
-                    charge,
-                    value=st.session_state.charges_directes[charge],
-                    step=1000,
-                    format="%d"
-                )
-    
-    st.session_state.charges_directes = charges_dir_updated
+    charges_dir_updated = st.session_state.charges_directes.copy()
     total_cd = sum(charges_dir_updated.values())
     
     df_cd = pd.DataFrame({
@@ -1057,6 +1032,7 @@ elif module == "Fiche de Commande":
         'Montant (DA)': charges_dir_updated.values()
     })
     st.dataframe(df_cd, use_container_width=True)
+    st.caption("Les charges directes sont gérées dans le module Paramétrage. Cette fiche affiche les valeurs synchronisées en lecture seule.")
     
     st.markdown(f"""
     <div class="metric-box">
@@ -1332,40 +1308,60 @@ elif module == "Devis":
     with col1:
         centres = ['APPRO', 'AT-D', 'AT-ML', 'DIST']
         centres_labels = [label_centre(c) for c in centres]
-        capacites = [8400, 1200, 2400, 720]
+        capacites = [st.session_state.unites_oeuvre.get(c, 0) for c in centres]
         consommations = [
             st.session_state.consommation_command.get('APPRO', 0),
             st.session_state.consommation_command.get('AT-D', 0),
             st.session_state.consommation_command.get('AT-ML', 0),
             st.session_state.consommation_command.get('DIST', 0)
         ]
-        disponibles = [cap - c for cap, c in zip(capacites, consommations)]
+        utilises_dans_capacite = [min(c, cap) for cap, c in zip(capacites, consommations)]
+        disponibles = [max(cap - c, 0) for cap, c in zip(capacites, consommations)]
+        surcharges = [max(c - cap, 0) for cap, c in zip(capacites, consommations)]
         
         fig_util = go.Figure(data=[
-            go.Bar(name='Utilisé', x=centres_labels, y=consommations, marker_color='lightblue'),
-            go.Bar(name='Disponible', x=centres_labels, y=disponibles, marker_color='lightgray')
+            go.Bar(name='Utilisé', x=centres_labels, y=utilises_dans_capacite, marker_color='lightblue'),
+            go.Bar(name='Disponible', x=centres_labels, y=disponibles, marker_color='lightgray'),
+            go.Bar(name='Surcharge', x=centres_labels, y=surcharges, marker_color='crimson')
         ])
         fig_util.update_layout(barmode='stack', xaxis_title="Centre", yaxis_title="Unités", height=400)
         st.plotly_chart(fig_util, use_container_width=True)
     
     with col2:
-        taux_util = [(c/cap)*100 for c, cap in zip(consommations, capacites)]
+        taux_util = [(c/cap)*100 if cap else 0 for c, cap in zip(consommations, capacites)]
+        statuts = ["Surcharge" if taux > 100 else "OK" for taux in taux_util]
         df_capacite = pd.DataFrame({
             'Centre': centres_labels,
             'Capacité': capacites,
             'Consommation': consommations,
             'Taux utilisé (%)': [f"{t:.1f}%" for t in taux_util],
-            'Disponible': disponibles
+            'Disponible': disponibles,
+            'Surcharge': surcharges,
+            'Statut': statuts
         })
         st.dataframe(df_capacite, use_container_width=True)
         
         taux_moyen = sum(taux_util) / len(taux_util)
-        st.success(f"""
-        **Synthèse:**
-        - Taux d'utilisation moyen: {taux_moyen:.1f}%
-        - Capacité disponible: {100-taux_moyen:.1f}%
-        - Conclusion: L'entreprise peut accepter d'autres commandes
-        """)
+        centres_en_surcharge = [
+            label_centre(centre)
+            for centre, surcharge in zip(centres, surcharges)
+            if surcharge > 0
+        ]
+        if centres_en_surcharge:
+            st.warning(f"""
+            **Synthèse:**
+            - Taux d'utilisation moyen: {taux_moyen:.1f}%
+            - Centres en surcharge: {', '.join(centres_en_surcharge)}
+            - Conclusion: Attention : certains centres sont en surcharge. L'entreprise doit ajuster sa capacité avant d'accepter de nouvelles commandes.
+            """)
+        else:
+            capacite_disponible_moyenne = sum(100 - t for t in taux_util) / len(taux_util)
+            st.success(f"""
+            **Synthèse:**
+            - Taux d'utilisation moyen: {taux_moyen:.1f}%
+            - Capacité disponible moyenne: {capacite_disponible_moyenne:.1f}%
+            - Conclusion: L'entreprise peut accepter d'autres commandes
+            """)
     
     st.markdown("---")
     

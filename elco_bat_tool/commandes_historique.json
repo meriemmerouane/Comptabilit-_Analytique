@@ -124,5 +124,47 @@
       }
     },
     "statut": "Créée"
+  },
+  {
+    "id": 4,
+    "numero_devis": "DEVIS-2024-9702",
+    "date_creation": "2026-05-18T14:08:22.530147",
+    "client": {
+      "nom": "Entreprise de travaux publics",
+      "adresse": "",
+      "telephone": "",
+      "email": ""
+    },
+    "finances": {
+      "charges_directes": {
+        "Tissu principal": 840000,
+        "Fournitures de couture": 72000,
+        "Bandes réfléchissantes et renforts EPI": 96000,
+        "Main-d’œuvre directe couture": 192000
+      },
+      "frais_indirects": 254834.77157360406,
+      "prix_revient": 1454834.771573604,
+      "prix_vente": 1745801.725888325,
+      "marge_montant": 290966.9543147208,
+      "marge_pct": 20,
+      "taux_marge_marque": 16.666666666666664,
+      "resultat": 290966.9543147208,
+      "coefficient": 1.2
+    },
+    "operationnel": {
+      "consommation_par_centre": {
+        "APPRO": 3000,
+        "AT-D": 3000,
+        "AT-ML": 600,
+        "DIST": 600
+      },
+      "capacites_residuelles": {
+        "APPRO": 9000,
+        "AT-D": 4200,
+        "AT-ML": 1800,
+        "DIST": 1200
+      }
+    },
+    "statut": "Créée"
   }
 ]
